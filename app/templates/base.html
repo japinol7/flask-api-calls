@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>Flask API Calls</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="//cdn.muicss.com/mui-0.9.39/css/mui.min.css" type="text/css"/>
+        <script src="//cdn.muicss.com/mui-0.9.39/js/mui.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../static/css/form.css">
+        <link rel="stylesheet" href="../static/css/site.css">
+        <link rel="stylesheet" href="../static/css/index.css">
+        <link rel="stylesheet" href="../static/css/about.css">
+        <link rel="stylesheet" href="../static/css/pokemon.css">
+        <link rel="stylesheet" href="../static/css/anime_list.css">
+        <link rel="stylesheet" href="../static/css/nasa.css">
+        <link rel="stylesheet" href="../static/css/marvel.css">
+        <link rel="stylesheet" href="../static/css/dog-breeds.css">
+    </head>
+
+    <body>
+        <div class="mui-panel">
+            <button class="mui-btn mui-btn--raised"><a href="/index">Home</a></button>
+            <button class="mui-btn mui-btn--raised"><a href="/anime-list">Anime List</a></button>
+            <button class="mui-btn mui-btn--raised"><a href="/pokemon">Pokemon</a></button>
+            <button class="mui-btn mui-btn--raised"><a href="/nasa-apod">NASA APOD</a></button>
+            <button class="mui-btn mui-btn--raised"><a href="/nasa-asteroid">NASA Asteroids</a></button>
+            <button class="mui-btn mui-btn--raised"><a href="/nasa-exoplanet">NASA Exoplanets</a></button>
+            <button class="mui-btn mui-btn--raised"><a href="/marvel-comics">Marvel Comics</a></button>
+            <button class="mui-btn mui-btn--raised"><a href="/dog-breeds">Dog Breeds</a></button>
+            <button class="mui-btn mui-btn--raised"><a href="/about">About</a></button>
+            <img src="../static/img/logo_japinol.png" style="height: 20px"
+                 alt="logo_japinol.png">
+        </div>
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
+</html>

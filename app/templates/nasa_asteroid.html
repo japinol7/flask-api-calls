@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Nasa API call- Asteroids NeoWs</h1>
+
+    <div class="body">
+        <br>
+        <form class="nasa-form-class" id="nasa_form_approach_date"
+              action="/nasa-asteroid" method="POST" style="background:#b2c8f6">
+            <p><strong>Find asteroids by closest approach date to Earth.</strong> </p>
+            <p><strong>Start date</strong></p>
+            <input name="nasa_asteroids_start_date" id="nasa_asteroids_start_date" type="text"
+                   placeholder="Eg: 2021-01-01" required>
+            <p><strong>End date. Only necessary for more than one day (6 days max).</strong></p>
+            <input name="nasa_asteroids_end_date" id="nasa_asteroids_end_date" type="text"
+                   placeholder="Eg: 2021-01-02">
+            <button class="submit-asteroids-by-date">Submit</button>
+        </form>
+
+        <form class="nasa-form-class"  id="nasa_form_neo_ref_id"
+              action="/nasa-asteroid" method="POST" style="background:#b2c8f6">
+            <p><strong>Find asteroid by its Neo Reference Id</strong></p>
+            <p><strong>Neo Reference Id</strong></p>
+            <input name="nasa_asteroids_neo_ref_id" id="nasa_asteroids_neo_ref_id" type="text"
+                   placeholder="Eg: 54097969" required>
+            <button class="submit-asteroids-by-id">Submit</button>
+        </form>
+    </div>
+
+    <div class="body">
+        <br>
+        <div class="nasa-list-api-call-info">
+            <p>
+                <strong> Retrieve a list of Asteroids based on their closest approach date to Earth or by Id.</strong> <br>
+            </p>
+            <p> You can check the NASA Asteroid Classification and its dataset explanation in this article
+                by Shubhankar Rawat on Towards Data Science website:
+                <span class="body_small"><a href="https://towardsdatascience.com/nasa-asteroid-classification-6949bda3b1da">https://towardsdatascience.com/nasa-asteroid-classification-6949bda3b1da</a> </span>
+            <p>
+                {%  if form_executed == 'nasa_form_neo_ref_id' %}
+                        # asteroids with id <strong>{{ asteroids[0] and asteroids[0][0] or asteroids[0] }}</strong> found on
+                {% else %}
+                        # asteroids with approach dates between <strong>{{ asteroids[0] }}</strong> found on
+                {% endif %}
+                <span class="body_small"><a href="https://api.nasa.gov/">https://api.nasa.gov/</a> </span>
+                :
+                <strong>{{ asteroids[1] }}</strong>
+            </p>
+        </div>
+
+        {% if asteroids and asteroids[3]['error'] %}
+            <div class="nasa-list-api-call-error">
+                <br>
+                <p><strong>API Error:  {{ asteroids[3]['error'] }} </strong> </p>
+                <br>
+            </div>
+        {% endif %}
+
+        <table class="mui-table mui-table--bordered">
+            <thead>
+            <tr>
+                <th>Neo reference Id</th>
+                <th>Asteroid Name</th>
+                <th>Close approach date</th>
+                <th>Nasa jpl url</th>
+                <th>Is potentially hazardous</th>
+                <th>Absolute magnitude h</th>
+                <th>Orbiting body</th>
+                <th>Is sentry object</th>
+                <th>Estimated diameter Km min</th>
+                <th>Estimated diameter Km max</th>
+                <th>Relative velocity km per sec.</th>
+                <th>Relative velocity km per hour</th>
+                <th>Miss distance Km</th>
+                <th>Miss distance Astronomical</th>
+            </tr>
+            </thead>
+            {% if asteroids and asteroids[2] %}
+                <tbody>
+                {% for item in asteroids[2] %}
+                    <tr>
+                    <td>{{ item.neo_reference_id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.close_approach_date }}</td>
+                    <td class="body_small"><a href="{{ item.nasa_jpl_url }}">{{ item.nasa_jpl_url }}</a></td>
+                    <td>{{ item.is_potentially_hazardous_asteroid }}</td>
+                    <td>{{ item.absolute_magnitude_h }}</td>
+                    <td>{{ item.orbiting_body }}</td>
+                    <td>{{ item.is_sentry_object }}</td>
+                    <td>{{ item.estimated_diameter_km_min }}</td>
+                    <td>{{ item.estimated_diameter_km_max }}</td>
+                    <td>{{ item.relative_velocity_km_per_sec }}</td>
+                    <td>{{ item.relative_velocity_km_per_hour }}</td>
+                    <td>{{ item.miss_distance_km }}</td>
+                    <td>{{ item.miss_distance_astronomical }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+		    {% else %}
+                <tbody>
+                <tr>
+                    <td></td>
+                    <td class="body_small"></td>
+                    <td></td>     <td></td>     <td></td>     <td></td>     <td></td>
+                    <td></td>     <td></td>     <td></td>     <td></td>     <td></td>
+                    <td></td>     <td></td>     <td></td>
+                </tr>
+                </tbody>
+		    {% endif %}
+        </table>
+    </div>
+{% endblock %}

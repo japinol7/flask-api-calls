@@ -1,0 +1,13 @@
+.nasa-list-api-call-info {
+    background: #dcfddc;
+    color: black;
+}
+
+.nasa-form-class {
+    display: inline-block;
+}
+
+.nasa-list-api-call-error {
+    background: #fffbe3;
+    color: red;
+}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Dog Breeds API call</h1>
+
+    <div class="body">
+        <br>
+        <form class="form-class" action="/dog-breeds" method="POST" style="background:#b2c8f6">
+            <p><strong>Get dog breeds data</strong></p>
+            <select name="dog_breeds_option" id="dog_breeds_option" type="text" required>
+                <option value="" selected>&lt;Select an option&gt;</option>
+                <option value="breeds">Breeds</option>
+                <option value="breeds_with_image">Breeds with random image (may take a long time)</option>
+            </select>
+            <button class="submit-breed">Submit</button>
+        </form>
+    </div>
+
+    <div class="body">
+        <br>
+        <div class="dog-breeds-api-call-info">
+            <p class="body_warning">
+                <strong>Warning!</strong>
+                If you select the option with images, it will need 95 requests to de API and may take some time.
+                This is because we have to request an image for each breed independently.
+            </p>
+            <p># dog breeds found on https://dog.ceo/dog-api/:
+                <strong>{{ dog_breeds[0] }}</strong>
+            </p>
+        </div>
+        <table class="mui-table mui-table--bordered">
+            <thead>
+            <tr>
+                <th>Breeds</th>
+                {% if is_dog_breeds_with_img %}
+                    <th>Image</th>
+                    <th>Image URL</th>
+                {% endif %}
+            </tr>
+            </thead>
+            {% if dog_breeds and dog_breeds[1] %}
+                <tbody>
+                {% for item in dog_breeds[1] %}
+                    <tr>
+                    {% if is_dog_breeds_with_img %}
+                        <td>{{ item[0] }}</td>
+                        <td class="body_small"><a href="{{ item[1] }}">{{ item[1] }}</a></td>
+                        <td>
+                            <img src="{{ item[1] }}" style="height: 250px;"
+                                 alt="{{ item[0] }} picture">
+                        </td>
+                    {% else %}
+                        <td>{{ item }}</td>
+                    {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+		    {% else %}
+                <tbody>
+                <tr>
+                    <td></td>
+                </tr>
+                </tbody>
+		    {% endif %}
+        </table>
+    </div>
+{% endblock %}

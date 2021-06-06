@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Anime List API call</h1>
+
+    <div class="body">
+        <br>
+        <form class="form-class" action="/anime-list" method="POST" style="background:#b2c8f6">
+            <p><strong>Input text to find animes that match</strong></p>
+            <input name="anime_list_title" id="anime_list_title" type="text"
+                   placeholder="Eg: Evangelion" required>
+            <button class="submit-title">Submit</button>
+        </form>
+    </div>
+
+    <div class="body">
+        <br>
+        <div class="anime-list-api-call-info">
+            <p># anime with text <strong>{{ anime_list[0] }}</strong> found on https://api.jikan.moe/v3/ (only the 1st page):
+                <strong>{{ anime_list[1] }}</strong>
+            </p>
+        </div>
+        <table class="mui-table mui-table--bordered">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>URL</th>
+                <th>Image</th>
+            </tr>
+            </thead>
+            {% if anime_list and anime_list[2] %}
+                <tbody>
+                {% for item in anime_list[2] %}
+                    <tr>
+                    <td>{{ item[0] }}</td>
+                    <td>{{ item[1] }}</td>
+                    <td class="body_small"><a href="{{ item[2] }}">{{ item[2] }}</a></td>
+                    <td>
+                        <img src="{{ item[3] }}" style="height: 220px;"
+                             alt="{{ item[0] }} picture">
+                    </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+		    {% else %}
+                <tbody>
+                <tr>
+                    <td></td>
+                    <td class="body_small"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </tbody>
+		    {% endif %}
+        </table>
+    </div>
+{% endblock %}

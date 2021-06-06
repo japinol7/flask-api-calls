@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Pokemon API call</h1>
+
+    <div class="body">
+        <br>
+        <form class="form-class" action="/pokemon" method="POST" style="background:#b2c8f6">
+            <p><strong>Choose a color to find pokemon that match</strong></p>
+            <select name="pokemon_color" id="pokemon_color" type="text" required>
+                <option value="" selected>&lt;Select a color&gt;</option>
+                <option value="black">Black</option>
+                <option value="blue">Blue</option>
+                <option value="brown">Brown</option>
+                <option value="gray">Gray</option>
+                <option value="green">Green</option>
+                <option value="pink">Pink</option>
+                <option value="purple">Purple</option>
+                <option value="red">Red</option>
+                <option value="white">White</option>
+                <option value="yellow">Yellow</option>
+            </select>
+            <button class="submit-color">Submit</button>
+        </form>
+    </div>
+
+    <div class="body">
+        <br>
+        <div class="pokemon-api-call-info">
+            <p># Pokemon of color <strong>{{ pokemon[0] }}</strong> found on https://pokeapi.co/api/v2/:
+                <strong>{{ pokemon[1] }}</strong>
+            </p>
+        </div>
+        <table class="mui-table mui-table--bordered">
+            <thead>
+            <tr>
+                <th>Pokemon</th>
+                <th>URL</th>
+            </tr>
+            </thead>
+            {% if pokemon and pokemon[2] %}
+                <tbody>
+                {% for item in pokemon[2] %}
+                    <tr>
+                    <td>{{ item[0] }}</td>
+                    <td class="body_small"><a href="{{ item[1] }}">{{ item[1] }}</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+		    {% else %}
+                <tbody>
+                <tr>
+                    <td></td>
+                    <td class="body_small"></td>
+                </tr>
+                </tbody>
+		    {% endif %}
+        </table>
+    </div>
+{% endblock %}

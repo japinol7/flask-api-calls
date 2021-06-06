@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Nasa API call - Astronomy Picture of the Day</h1>
+
+    <div class="body">
+        <br>
+        <form class="nasa-form-class" id="nasa_form_apod_date"
+              action="/nasa-apod" method="POST" style="background:#b2c8f6">
+            <p><strong>Search APOD by date</strong> </p>
+            <p><strong>Start date</strong></p>
+            <input name="nasa_apod_start_date" id="nasa_apod_start_date" type="text"
+                   placeholder="Eg: 2021-01-03" required>
+            <p><strong>End date. Only necessary for more than one day.</strong></p>
+            <input name="nasa_apod_end_date" id="nasa_apod_end_date" type="text"
+                   placeholder="Eg: 2021-01-03">
+            <button class="submit-apod-by-date">Submit</button>
+        </form>
+
+        <form class="nasa-form-class"  id="nasa_form_apod_random"
+              action="/nasa-apod" method="POST" style="background:#b2c8f6">
+            <p><strong>Search random APODs</strong></p>
+            <p><strong>How many APODs to search</strong></p>
+            <input name="nasa_apod_random_total" id="nasa_apod_random_total" type="number"
+                   placeholder="Eg: 5" required>
+            <button class="submit-apod-random">Submit</button>
+        </form>
+    </div>
+
+    <div class="body">
+        <br>
+        <div class="nasa-list-api-call-info">
+            <p>
+                <strong> Retrieve a list of Astronomy Picture of the Day based by date range or randomly.</strong> <br>
+            </p>
+            <p> You can check the NASA APOD website here:
+                <span class="body_small"><a href="https://apod.nasa.gov/apod/">https://apod.nasa.gov/apod/</a> </span>
+            <p>
+                {%  if form_executed == 'nasa_form_apod_random' %}
+                        # random APODs for <strong>{{ apods[0] and apods[0][0] or apods[0] }}</strong> searches found on
+                {% else %}
+                        # APODs with dates between <strong>{{ apods[0] }}</strong> found on
+                {% endif %}
+                <span class="body_small"><a href="https://api.nasa.gov/">https://api.nasa.gov/</a> </span>
+                :
+                <strong>{{ apods[1] }}</strong>
+            </p>
+        </div>
+
+        {% if apods and apods[3]['error'] %}
+            <div class="nasa-list-api-call-error">
+                <br>
+                <p><strong>API Error:  {{ apods[3]['error'] }} </strong> </p>
+                <br>
+            </div>
+        {% endif %}
+
+        <table class="mui-table mui-table--bordered">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Title</th>
+                <th>Media Type</th>
+                <th>URL</th>
+                <th>HD URL</th>
+                <th>Copyright</th>
+                <th>Service Version</th>
+            </tr>
+            </thead>
+            {% if apods and apods[2] %}
+                <tbody>
+                {% for item in apods[2] %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.date }}</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.media_type }}</td>
+                        <td class="body_small"><a href="{{ item.url }}">{{ item.url }}</a></td>
+                        <td class="body_small"><a href="{{ item.url_hd }}">{{ item.url_hd }}</a></td>
+                        <td>{{ item.copyright }}</td>
+                        <td>{{ item.service_version }}</td>
+                    </tr>
+                    <tr>
+                        <td></td>     <td></td>     <td></td>     <td></td>
+                        <td>{{ item.explanation }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+		    {% else %}
+                <tbody>
+                <tr>
+                    <td></td>     <td></td>     <td></td>     <td></td>
+                    <td class="body_small"></td>
+                    <td class="body_small"></td>
+                    <td></td>     <td></td>
+                </tr>
+                </tbody>
+		    {% endif %}
+        </table>
+    </div>
+{% endblock %}

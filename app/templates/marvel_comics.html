@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Marvel Comics API call</h1>
+
+    <div class="body">
+        <br>
+        <form class="marvel-form-class" id="marvel_form_comics"
+              action="/marvel-comics" method="POST" style="background:#b2c8f6">
+            <div class="row">
+                    <div class="col">
+                        <p><strong>Search Marvel Comics <br>
+                            <span class="body_highlight_color_2">(An API key is needed)</strong></span>
+                        </p>
+                        <p><strong>Title to search</strong></p>
+                        <input name="marvel_comics_title" id="marvel_comics_title" type="text"
+                               placeholder="Eg: The Amazing Spider-Man" required>
+                        <p><strong>Match title method</strong></p>
+                        <select name="marvel_comics_title_method" id="marvel_comics_title_method" type="text" required>
+                            <option value="">&lt;Select a method&gt;</option>
+                            <option value="exact_match" selected>Exact Match</option>
+                            <option value="title_starts_with">Starts with specified text</option>
+                        </select>
+                        <p><strong>Start date</strong></p>
+                        <input name="marvel_comics_start_date" id="marvel_comics_start_date" type="text"
+                               placeholder="Eg: 2021-01-01">
+                        <p><strong>End date.</strong></p>
+                        <input name="marvel_comics_end_date" id="marvel_comics_end_date" type="text"
+                               placeholder="Eg: 2021-01-02">
+                    </div>
+                    <div class="col">
+                        <br>
+                        <p style="color:transparent">.</p> <p style="color:transparent">.</p><p style="color:transparent">.</p>
+                        <p><strong>Max. returned comics (max. 100)</strong></p>
+                        <input name="marvel_comics_limit" id="marvel_comics_limit" type="number"
+                               placeholder="Eg: 99" value="100" required min="1" max="100">
+                        <p><strong>Offset (ignore first offset comics)</strong></p>
+                        <input name="marvel_comics_offset" id="marvel_comics_offset" type="number"
+                               placeholder="Eg: 99" min="1">
+                        <p><strong>Order by</strong></p>
+                        <select name="marvel_comics_order_by" id="marvel_comics_order_by" type="text" required>
+                            <option value="">&lt;Select a sorting method&gt;</option>
+                            <option value="onsaleDate,title,issueNumber" selected>On sale date, Title, Issue number</option>
+                            <option value="onsaleDate">On sale date</option>
+                            <option value="title,issueNumber">Title, Issue number</option>
+                            <option value="title">Title</option>
+                            <option value="issueNumber">Issue number</option>
+                            <option value="focDate">Foc date</option>
+                        </select>
+                    </div>
+            </div>
+            <button class="submit-comics-random">Submit</button>
+        </form>
+    </div>
+
+    <div class="body">
+        <br>
+        <div class="marvel-list-api-call-info">
+            <p>
+                <strong> Retrieve a list of Marvel Comics which title starts with some text.</strong> <br>
+            </p>
+            <p>
+                {% if comics[1] %}
+                    <a href="http://marvel.com">{{ comics[2].attribution_text }}.</a>
+                {% else %}
+                    <a href="http://marvel.com">Data provided by Marvel. © 2021 Marvel.</a>
+                {% endif %}
+                You can check the Marvel Comics website here:
+                <span class="body_small"><a href="https://www.marvel.com/comics/">https://www.marvel.com/comics/</a> </span>
+            <p>
+                {%  if form_executed == 'marvel_form_comics' %}
+                        # Marvel comics of title that starts with <strong>{{ comics[0] and comics[0][0] or comics[0] }}</strong> ,
+                    match method: <strong>{{ comics[0] and comics[0][5] or '' }}</strong> ,
+                    limit: <strong>{{ comics[0] and comics[0][1] or '-' }}</strong> ,
+                    offset: <strong>{{ comics[0] and comics[0][2] or '-' }}</strong> ,
+                    dates: (<strong>{{ comics[0] and comics[0][3] or '-' }}, {{ comics[0] and comics[0][4] or '-' }}</strong>) ,
+                    order by: <strong>{{ comics[0] and comics[0][6] or '-' }}</strong>
+                    found on
+                {% else %}
+                        # Marvel comics of title that starts with <strong> __ </strong> found on
+                {% endif %}
+                <span class="body_small"><a href="https://www.marvel.com/comics">https://www.marvel.com/comics/</a> </span>
+                :
+                <strong>{{ comics[1] }}</strong> of <strong>{{ comics[2] and comics[2].total_matches or 0}}</strong> total matches.
+            </p>
+        </div>
+
+        {% if comics and comics[4]['error'] %}
+            <div class="nasa-list-api-call-error">
+                <br>
+                <p><strong>API Error:  {{ comics[4]['error'] }} </strong> </p>
+                <br>
+            </div>
+        {% endif %}
+
+        <table class="mui-table mui-table--bordered">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>Title</th>
+                <th>Issue Number</th>
+                <th>Thumbnail URL / URL</th>
+                <th>Thumbnail</th>
+                <th>Page Count</th>
+                <th>Characters</th>
+                <th>Creators / Images</th>
+                <th>Series</th>
+                <th>Events</th>
+                <th>variant_description</th>
+                <th>digital Id</th>
+                <th>ISBN</th>
+            </tr>
+            </thead>
+            {% if comics and comics[3] %}
+                <tbody>
+                {% for item in comics[3] %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.issue_number }}</td>
+                        <td class="body_small"><a href="{{ item.thumbnail }}">{{ item.thumbnail }}</a></td>
+                        <td>
+                            <img src="{{ item.thumbnail }}" style="height: 200px;"
+                                 alt="{{ item.thumbnail }} picture">
+                        </td>
+                        <td>{{ item.page_count }}</td>
+                        <td class="body_small">
+                            {% for character in item.characters %}
+                                {{ character }} <br>
+                            {% endfor %}
+                        </td>
+                        <td class="body_small">
+                            {% for creator in item.creators %}
+                                {{ creator['name'] }} :
+                                <span class="body_highlight_color">{{ creator['role'] }} </span> <br>
+                            {% endfor %}
+                        </td>
+                        <td class="body_small">
+                            {% for series_one in item.series %}
+                                {{ series_one }} <br>
+                            {% endfor %}
+                        </td>
+                        <td class="body_small">
+                            {% for event in item.events %}
+                                {{ event }} <br>
+                            {% endfor %}
+                        </td>
+                        <td>{{ item.variant_description }}</td>
+                        <td>{{ item.digital_id }}</td>
+                        <td>{{ item.isbn }}</td>
+                    </tr>
+                    <tr>
+                        <td></td>     <td></td>     <td></td>
+                        <td class="body_small">
+                            {% for url in item.urls %}
+                                 <a href="{{ url }}">{{ url }}</a> <br>
+                            {% endfor %}
+                        </td>
+                        <td></td>     <td></td>     <td></td>
+                        <td class="body_small">
+                            {% for image in item.images %}
+                                 <a href="{{ image }}">{{ image }}</a> <br>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+		    {% else %}
+                <tbody>
+                <tr>
+                    <td></td>     <td></td>     <td></td>
+                    <td class="body_small"></td>
+                    <td></td>     <td></td>     <td></td>     <td></td>     <td></td>
+                    <td></td>     <td></td>     <td></td>     <td></td>
+                </tr>
+                </tbody>
+		    {% endif %}
+        </table>
+    </div>
+{% endblock %}

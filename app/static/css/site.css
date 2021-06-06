@@ -1,0 +1,73 @@
+form {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 350px;
+    background-color: white;
+    padding: 20px 30px 20px 20px;
+    border-radius: 10px;
+}
+
+form > * {
+    margin: 10px;
+}
+
+form > div {
+    text-align: right;
+    margin-right: -10px;
+}
+
+p {
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+body {
+    background-color: white;
+}
+
+.body {
+    font-size: 16px;
+    text-align: left;
+}
+
+.body_small {
+    font-size: 14px;
+    text-align: left;
+}
+
+.body_warning {
+    color: darkred;
+}
+
+.body_highlight_color {
+    color: darkorange;
+}
+
+.body_highlight_color_2 {
+    color: orangered;
+}
+
+h1 {
+    background: #6e91de;
+    color: white;
+    text-align: left;
+    margin-top: 45px;
+    margin-bottom: 45px;
+    font-size: 60px;
+    font-weight: lighter;
+}
+
+.row {
+    overflow: hidden;
+    padding: 5px;
+    text-align: left;
+}
+
+.col {
+    float: left;
+    width: 50%;
+}
+
+.text_indent {
+    margin-left: 50px;
+}

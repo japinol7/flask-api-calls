@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Nasa API call- Exoplanets</h1>
+
+    <div class="body">
+        <br>
+        <form class="nasa-form-class"  id="nasa_form_exoplanets"
+              action="/nasa-exoplanet" method="POST" style="background:#b2c8f6">
+            <p><strong>Get Exoplanets data</strong></p>
+            <select name="exoplanet_option" id="exoplanet_option" type="text" required>
+                <option value="" selected>&lt;Choose an option&gt;</option>
+                <option value="exoplanet_all">All Exoplanets</option>
+            </select>
+            <button class="submit-exoplanets-by-id">Submit</button>
+        </form>
+    </div>
+
+    <div class="body">
+        <br>
+        <div class="nasa-list-api-call-info">
+            <p>
+                <strong>Retrieve a list of Exoplanets and some interesting data about them.</strong> <br>
+            </p>
+            <p> You can check the NASA Exoplanet Archive here:
+                <span class="body_small"><a href="https://exoplanetarchive.ipac.caltech.edu/">https://exoplanetarchive.ipac.caltech.edu/</a> </span>
+            <p>
+                {%  if form_executed == 'nasa_form_exoplanets' %}
+                        # exoplanets with option <strong>{{ exoplanets[0] and exoplanets[0][0] or exoplanets[0] }}</strong> found on
+                {% else %}
+                        # exoplanets with option <strong>{{ exoplanets[0] }}</strong> found on
+                {% endif %}
+                <span class="body_small"><a href="https://exoplanetarchive.ipac.caltech.edu/">https://exoplanetarchive.ipac.caltech.edu/</a> </span>
+                :
+                <strong>{{ exoplanets[1] }}</strong>
+            </p>
+        </div>
+
+        {% if exoplanets and exoplanets[3]['error'] %}
+            <div class="nasa-list-api-call-error">
+                <br>
+                <p><strong>API Error:  {{ exoplanets[3]['error'] }} </strong> </p>
+                <br>
+            </div>
+        {% endif %}
+
+        <table class="mui-table mui-table--bordered">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Planet Name</th>
+                <th>Planet Letter</th>
+                <th>Host Star Name</th>
+                <th>Discovery Method</th>
+                <th>Planets in System</th>
+                <th>Orbital Period (days)</th>
+                <th>Orbit Semi-Major Axis (au)</th>
+                <th>Eccentricity</th>
+                <th>Inclination (deg)</th>
+                <th>Planet Mass or M*sin(i) [Jupiter mass]</th>
+                <th>Planet Mass or M*sin(i) Provenance</th>
+                <th>Planet Radius (Jupiter radii)</th>
+                <th>Planet Density (g/cm**3)</th>
+                <th>Dec (decimal degrees)</th>
+                <th>Date of Last Update</th>
+                <th>Discovery Facility</th>
+                <th>Effective Temperature (K)</th>
+                <th>Stellar Mass (solar mass)</th>
+                <th>Stellar Radius (solar radii)</th>
+                <th>Controversial Flag</th>
+            </tr>
+            </thead>
+            {% if exoplanets and exoplanets[2] %}
+                <tbody>
+                {% for item in exoplanets[2] %}
+                    <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.pl_name }}</td>
+                    <td>{{ item.pl_letter }}</td>
+                    <td>{{ item.pl_hostname }}</td>
+                    <td>{{ item.pl_discmethod }}</td>
+                    <td>{{ item.pl_pnum }}</td>
+                    <td>{{ item.pl_orbper }}</td>
+                    <td>{{ item.pl_orbsmax }}</td>
+                    <td>{{ item.pl_orbeccen }}</td>
+                    <td>{{ item.pl_orbincl }}</td>
+                    <td>{{ item.pl_bmassj }}</td>
+                    <td>{{ item.pl_bmassprov }}</td>
+                    <td>{{ item.pl_radj }}</td>
+                    <td>{{ item.pl_dens }}</td>
+                    <td>{{ item.dec }}</td>
+                    <td>{{ item.rowupdate }}</td>
+                    <td>{{ item.pl_facility }}</td>
+                    <td>{{ item.st_teff }}</td>
+                    <td>{{ item.st_mass }}</td>
+                    <td>{{ item.st_rad }}</td>
+                    <td>{{ item.pl_controvflag }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+		    {% else %}
+                <tbody>
+                <tr>
+                    <td></td>     <td></td>     <td></td>     <td></td>     <td></td>
+                    <td></td>     <td></td>     <td></td>     <td></td>     <td></td>
+                    <td></td>     <td></td>     <td></td>     <td></td>     <td></td>
+                    <td></td>     <td></td>     <td></td>     <td></td>     <td></td>
+                    <td></td>
+                </tr>
+                </tbody>
+		    {% endif %}
+        </table>
+    </div>
+{% endblock %}
