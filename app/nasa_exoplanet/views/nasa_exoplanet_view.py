@@ -8,10 +8,10 @@ from ..models.nasa_exoplanet import Exoplanet
 EXOPLANET_COLUMNS = [
     'pl_name',
     'pl_letter',
-    'pl_hostname',
-    'pl_discmethod',
-    'pl_controvflag',
-    'pl_pnum',
+    'hostname',
+    'discoverymethod',
+    'pl_controv_flag',
+    'sy_pnum',
     'pl_orbper',
     'pl_orbsmax',
     'pl_orbeccen',
@@ -22,10 +22,10 @@ EXOPLANET_COLUMNS = [
     'pl_dens',
     'dec',
     'rowupdate',
-    'pl_facility',
+    'disc_facility',
     'st_teff',
     'st_mass',
-    'st_rad',
+    'st_radv',
     ]
 
 logging.basicConfig(format='%(asctime)s %(levelname)s %(name)s: %(message)s')
@@ -39,15 +39,17 @@ def nasa_exoplanet():
     form_executed = None
     if request.method == 'POST' and 'exoplanet_option' in request.form:
         option = request.form.get('exoplanet_option')
-        exoplanets = get_nasa_exoplanets(option)
+        name = request.form.get('exoplanet_name')
+        exoplanets = get_nasa_exoplanets(option, name)
         form_executed = 'nasa_form_exoplanets'
     return render_template('nasa_exoplanet.html', exoplanets=exoplanets, form_executed=form_executed)
 
 
-def get_nasa_exoplanets(option):
+def get_nasa_exoplanets(option, name):
     columns_to_get = ','.join(EXOPLANET_COLUMNS)
-    r = requests.get(f"https://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI"
-                     f"?table=exoplanets&select={columns_to_get}&order=pl_name&format=json")
+    name_sql_filter = f"+where+upper(pl_name)+like+'%{name.upper()}%'" if name else ''
+    r = requests.get(f"https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query="
+                     f"select+{columns_to_get}+from+ps{name_sql_filter}+order+by+pl_name+&format=json")
     if not r.ok:
         error_msg = get_nasa_request_msg_error(a_request=r)
         res = (option, option), 0, [], {'error': error_msg}
@@ -69,10 +71,10 @@ def get_nasa_exoplanets(option):
 def fill_exoplanet_fields(exoplanet, item):
     exoplanet.pl_name = item.get('pl_name')
     exoplanet.pl_letter = item.get('pl_letter')
-    exoplanet.pl_hostname = item.get('pl_hostname')
-    exoplanet.pl_discmethod = item.get('pl_discmethod')
-    exoplanet.pl_controvflag = item.get('pl_controvflag')
-    exoplanet.pl_pnum = item.get('pl_pnum')
+    exoplanet.pl_hostname = item.get('hostname')
+    exoplanet.pl_discmethod = item.get('discoverymethod')
+    exoplanet.pl_controvflag = item.get('pl_controv_flag')
+    exoplanet.pl_pnum = item.get('sy_pnum')
     exoplanet.pl_orbper = item.get('pl_orbper')
     exoplanet.pl_orbsmax = item.get('pl_orbsmax')
     exoplanet.pl_orbeccen = item.get('pl_orbeccen')
@@ -83,10 +85,10 @@ def fill_exoplanet_fields(exoplanet, item):
     exoplanet.pl_dens = item.get('pl_dens')
     exoplanet.dec = item.get('dec')
     exoplanet.rowupdate = item.get('rowupdate')
-    exoplanet.pl_facility = item.get('pl_facility')
+    exoplanet.pl_facility = item.get('disc_facility')
     exoplanet.st_teff = item.get('st_teff')
     exoplanet.st_mass = item.get('st_mass')
-    exoplanet.st_rad = item.get('st_rad')
+    exoplanet.st_rad = item.get('st_radv')
 
 
 def get_nasa_request_msg_error(a_request):

@@ -3,7 +3,7 @@ This is a very simple Flask Application example that calls some APIs.
 
 	Objective: Make a very simple Flask Application example that calls some APIs. 
 	program: flask_api_calls
-	version: 1.0.1
+	version: 1.0.2
 	author: Joan A. Pinol
 	author_nickname: japinol
 	author_gitHub: japinol7
@@ -47,6 +47,12 @@ This is a very simple Flask Application example that calls some APIs.
                                                                         https://exoplanetarchive.ipac.caltech.edu/docs/program_interfaces.html .
                                                                         Exoplanet Archive API Exoplanet Columns: 
                                                                         https://exoplanetarchive.ipac.caltech.edu/docs/API_exoplanet_columns.html .
+                                                                        Data collected from the Planetary Systems table (PS), which is connected to the Exoplanet Archive TAP service.
+                                                                        Please review the TAP User Guide and create a new query for the most current data:
+                                                                        <span class="body_small"><a href="https://exoplanetarchive.ipac.caltech.edu/docs/TAP/usingTAP.html">https://exoplanetarchive.ipac.caltech.edu/docs/TAP/usingTAP.html</a> </span>
+                                                                        <br>Please note the database column names have also changed;
+                                                                        this document contains the current definitions and a mapping between the new and deprecated names:
+                                                                        <span class="body_small"><a href="https://exoplanetarchive.ipac.caltech.edu/docs/API_PS_columns.html">https://exoplanetarchive.ipac.caltech.edu/docs/API_PS_columns.html</a> </span>
 
     Marvel Comics           https://www.marvel.com/comics/	            The Marvel Comics API is a tool to help developers everywhere create amazing,
                                                                         uncanny and incredible web sites and applications using data from the 
@@ -61,7 +67,6 @@ This is a very simple Flask Application example that calls some APIs.
                                                                         Data provided by Marvel. © 2021 Marvel.
                                                                         Developer Portal at Marvel.com: https://developer.marvel.com/
                                                                         API Documentation: https://developer.marvel.com/docs
-
 
     Dog API                 https://dog.ceo/dog-api/                    Dog API. Original dataset taken from the the Stanford Dogs Dataset.
 
