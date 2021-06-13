@@ -2,7 +2,7 @@
 This is a very simple Flask Application example that calls some APIs.
 
 	Objective: Make a very simple Flask Application example that calls some APIs. 
-	program: flask_api_calls
+	program: flask-api-calls
 	version: 1.0.2
 	author: Joan A. Pinol
 	author_nickname: japinol
