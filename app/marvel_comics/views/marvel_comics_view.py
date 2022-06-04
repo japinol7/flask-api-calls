@@ -9,11 +9,11 @@ from app import app
 
 from ..models.marvel_comic import MarvelComic
 from ..models.marvel_general_data import MarvelGeneralData
-from ...utils import utils
+from ...tools.utils import utils
 
 
 MARVEL_COMICS_WEBSITE = "https://www.marvel.com/comics/"
-MARVEL_API_KEY_FOLDER = os.path.join(str(Path.home()), 'marvel_api_keys')
+MARVEL_API_KEY_FOLDER = os.path.join(str(Path.home()), '.api_keys', 'marvel_api_keys')
 MARVEL_API_KEY_FILE = os.path.join(MARVEL_API_KEY_FOLDER, 'marvel_public_key.key')
 MARVEL_API_PRIVATE_KEY_FILE = os.path.join(MARVEL_API_KEY_FOLDER, 'marvel_private_key.key')
 

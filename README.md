@@ -54,6 +54,25 @@ This is a very simple Flask Application example that calls some APIs.
                                                                         this document contains the current definitions and a mapping between the new and deprecated names:
                                                                         <span class="body_small"><a href="https://exoplanetarchive.ipac.caltech.edu/docs/API_PS_columns.html">https://exoplanetarchive.ipac.caltech.edu/docs/API_PS_columns.html</a> </span>
 
+    Spotify                 https://developer.spotify.com/documentation/web-api/
+
+                                                                        We use Spotify Web API to retrieve metadata about music artists, albums, 
+                                                                        and tracks, directly from the Spotify Data Catalogue.
+                                                                        * Web API | Spotify for Developers
+                                                                          https://developer.spotify.com/documentation/web-api/
+                                                                          https://developer.spotify.com/documentation/general/guides/authorization/
+                                                                          https://developer.spotify.com/documentation/general/guides/authorization/app-settings/
+                                                                        
+                                                                        * We use Spotipy package for the Spotify Web API:
+                                                                          * Welcome to Spotipy! — spotipy 2.0 documentation
+                                                                            https://spotipy.readthedocs.io/
+
+                                                                        * An API key is needed to request the API
+                                                                          * Regarding this example you must create the folder spotify_api_keys in the HOME directory
+                                                                            with a file containing your API public key (spotify_public_key.key)
+                                                                            and another file containing your API private key spotify_private_key.key
+                                                                            You can copy this directory structure from the extra folder of this project.
+
     Marvel Comics           https://www.marvel.com/comics/	            The Marvel Comics API is a tool to help developers everywhere create amazing,
                                                                         uncanny and incredible web sites and applications using data from the 
                                                                         several years of the Marvel age of comics.
@@ -69,4 +88,3 @@ This is a very simple Flask Application example that calls some APIs.
                                                                         API Documentation: https://developer.marvel.com/docs
 
     Dog API                 https://dog.ceo/dog-api/                    Dog API. Original dataset taken from the the Stanford Dogs Dataset.
-
