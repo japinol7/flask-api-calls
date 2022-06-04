@@ -1,0 +1,14 @@
+.marvel-list-api-call-info {
+    background: #dcfddc;
+    color: black;
+}
+
+.marvel-form-class {
+    display: block;
+    max-width: 700px;
+}
+
+.marvel-list-api-call-error {
+    background: #fffbe3;
+    color: red;
+}
