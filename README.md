@@ -60,6 +60,7 @@ This is a very simple Flask Application example that calls some APIs.
                                                                         and tracks, directly from the Spotify Data Catalogue.
                                                                         * Web API | Spotify for Developers
                                                                           https://developer.spotify.com/documentation/web-api/
+                                                                          https://developer.spotify.com/documentation/web-api/reference/search/
                                                                           https://developer.spotify.com/documentation/general/guides/authorization/
                                                                           https://developer.spotify.com/documentation/general/guides/authorization/app-settings/
                                                                         

@@ -1,6 +1,7 @@
 import logging
 import os
 from pathlib import Path
+
 from flask import render_template, request
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
@@ -29,31 +30,51 @@ os.environ['SPOTIPY_CLIENT_SECRET'] = utils.read_file_as_string(SPOTIFY_API_PRIV
 def spotify_music():
     albums = []
     form_executed = None
-    if request.method == 'POST' and 'spotify_music_artist_uri' in request.form:
+    if request.method == 'POST' and 'spotify_music_artist_uri_id' in request.form:
         artist = request.form.get('spotify_music_artist')
+        artist_uri_id = request.form.get('spotify_music_artist_uri_id')
         artist_match_method = request.form.get('spotify_artist_match_method')
         limit = int(request.form.get('spotify_albums_limit'))
         start_date = request.form.get('spotify_albums_start_date')
         end_date = request.form.get('spotify_albums_end_date') or start_date
         order_by = request.form.get('spotify_albums_order_by')
-        albums = get_spotify_music(artist, limit, start_date, end_date, artist_match_method, order_by)
+        albums = get_spotify_music(artist, limit, start_date, end_date, artist_match_method, artist_uri_id, order_by,
+                                   only_artists=False)
         form_executed = 'spotify_form_albums'
-    elif request.method == 'POST' and 'spotify_artist_uri' in request.form:
+    elif request.method == 'POST' and 'spotify_artist_uri_id' in request.form:
+        artist = request.form.get('spotify_artist')
+        limit = int(request.form.get('spotify_artist_limit'))
+        artist_uri_id = request.form.get('spotify_artist_uri_id')
+        albums = get_spotify_music(artist, limit, None, None, None, artist_uri_id, None,
+                                   only_artists=True)
         form_executed = 'spotify_form_artists'
     return render_template('spotify_music.html', albums=albums, form_executed=form_executed)
 
 
-def get_spotify_music(artist_name, limit, start_date, end_date, artist_match_method, order_by,
-                      only_artists=False, only_one_artist=True):
+def get_spotify_music(artist_name, limit, start_date, end_date, artist_match_method, artist_uri_id, order_by,
+                      only_artists):
     spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
-    SpotifyArtist.reset_num_id()
-    SpotifyAlbum.reset_num_id()
+    SpotifyArtist.reset()
+    SpotifyAlbum.reset()
+    artist_items = []
 
-    artist_results = spotify.search(q=f'artist:{artist_name}', type='artist')
-    artist_items = artist_results['artists']['items']
+    try:
+        if artist_uri_id:
+            artist_data = spotify.artist(artist_uri_id)
+            artist_results = {'artists': {
+                'items': [artist_data],
+                'next': None,
+                }}
+        else:
+            query = f'artist:{artist_name}'
+            artist_results = spotify.search(q=query, type='artist')
+        artist_items = artist_results['artists']['items']
+    except spotipy.SpotifyException as e:
+        log.warning(f"SpotifyException: {e}")
+
     if len(artist_items) < 1:
-        error_msg = "Artist not found"
-        res = ((artist_name, limit, start_date, end_date, artist_match_method, order_by),
+        error_msg = "No artist found" if only_artists else "Artist not found"
+        res = ((artist_name, limit, start_date, end_date, artist_match_method, artist_uri_id, order_by),
                0, None, [], {'error': error_msg})
         log.info(res)
         return res
@@ -69,15 +90,16 @@ def get_spotify_music(artist_name, limit, start_date, end_date, artist_match_met
              f"popularity: {artist.popularity} uri/url {artist.uri} {artist.url}")
 
     albums = []
-    if not only_artists:
+    if only_artists:
+        get_spotify_other_artists(spotify, artist_results, limit)
+        items_len = len(SpotifyArtist.artists)
+    else:
         get_spotify_albums(spotify, artist, limit)
         albums = SpotifyAlbum.albums
+        items_len = len(albums)
 
-    if not only_one_artist:
-        get_spotify_other_artists(artist_items, artist_data)
-
-    return ((artist_name, limit, start_date, end_date, artist_match_method, order_by),
-            len(albums), SpotifyArtist.artists, albums, {'error': ''})
+    return ((artist_name, limit, start_date, end_date, artist_match_method, artist_uri_id, order_by),
+            items_len, SpotifyArtist.artists, albums, {'error': ''})
 
 
 def get_spotify_albums(spotify, artist, limit):
@@ -95,14 +117,19 @@ def get_spotify_albums(spotify, artist, limit):
         albums.append(album)
 
 
-def get_spotify_other_artists(artist_items, artist_data):
+def get_spotify_other_artists(spotify, artist_results, limit):
+    artists_data = artist_results['artists']['items']
+    while artist_results['artists']['next'] and len(artists_data) < limit:
+        artist_results = spotify.next(artist_results['artists'])
+        artists_data.extend(artist_results['artists']['items'])
+
     log.info(f"{'-' * 15}")
-    for other_artist_data in artist_items[1:]:
+    for other_artist_data in artists_data[1:]:
         followers = other_artist_data['followers']['total']
         popularity = other_artist_data['popularity']
         if followers < MIN_ARTIST_FOLLOWERS and popularity < MIN_ARTIST_POPULARITY:
             continue
-        other_artist = SpotifyArtist(artist_data['id'])
+        other_artist = SpotifyArtist(other_artist_data['id'])
         fill_artist_fields(other_artist, other_artist_data)
         log.info(f"--- Another artist: {other_artist.name}, followers: {other_artist.followers} "
                  f"popularity: {other_artist.popularity} uri/url {other_artist.uri} {other_artist.url}")
