@@ -12,9 +12,14 @@
                         <p><strong>Search Spotify Music Albums<br>
                             <span class="body_highlight_color_2">(An API key is needed)</span></strong>
                         </p>
-                        <p><strong>Artist to search</strong></p>
+                        <p><strong>Artist name to search</strong></p>
                         <input name="spotify_music_artist" id="spotify_music_artist" type="text"
-                               placeholder="Eg: Hilary Hahn" required>
+                               placeholder="Eg: Hilary Hahn">
+
+                        <p><strong>Artist URI to search</strong></p>
+                        <input name="spotify_music_artist_uri" id="spotify_music_artist_uri" type="text"
+                               placeholder="Eg: spotify:artist:5JdT0LYJdlPbTC58p60WTX">
+
                         <p><strong>Match title method</strong></p>
                         <select name="spotify_artist_match_method" id="spotify_artist_match_method" type="text" required>
                             <option value="">&lt;Select a method&gt;</option>
@@ -30,7 +35,29 @@
                         </select>
                     </div>
             </div>
-            <button class="submit-albums-random">Submit</button>
+            <button class="submit-albums">Submit</button>
+        </form>
+
+        <form class="spotify-form-class" id="spotify_form_artists"
+              action="/spotify-music" method="POST" style="background:#b2c8f6">
+            <div class="row">
+                    <div class="col">
+                        <p><strong>Search Spotify Music Artists<br>
+                            <span class="body_highlight_color_2">(An API key is needed)</span></strong>
+                        </p>
+                        <p><strong>Artist name to search</strong></p>
+                        <input name="spotify_artist" id="spotify_artist" type="text"
+                               placeholder="Eg: Hilary Hahn">
+
+                        <p><strong>Artist URI to search</strong></p>
+                        <input name="spotify_artist_uri" id="spotify_artist_uri" type="text"
+                               placeholder="Eg: spotify:artist:5JdT0LYJdlPbTC58p60WTX">
+                        <p><strong>Max. returned albums (max. 5000)</strong></p>
+                        <input name="spotify_artists_limit" id="spotify_artists_limit" type="number"
+                               placeholder="Eg: 99" value="200" required min="1" max="5000">
+                    </div>
+            </div>
+            <button class="submit-artists">Submit</button>
         </form>
     </div>
 
@@ -49,7 +76,7 @@
                 You can check the Spotify Music website here:
                 <span class="body_small"><a href="https://open.spotify.com/">https://open.spotify.com/</a> </span>
             <p>
-                {%  if form_executed == 'spotify_form_music' %}
+                {%  if form_executed == 'spotify_form_albums' %}
                         # Spotify albums of title that starts with <strong>{{ albums[0] and albums[0][0] or albums[0] }}</strong> ,
                     match method: <strong>{{ albums[0] and albums[0][4] or '' }}</strong> ,
                     limit: <strong>{{ albums[0] and albums[0][1] or '-' }}</strong> ,
