@@ -6,8 +6,3 @@
 .nasa-form-class {
     display: inline-block;
 }
-
-.nasa-list-api-call-error {
-    background: #fffbe3;
-    color: red;
-}
