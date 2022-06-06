@@ -2,6 +2,7 @@
 
 class SpotifyAlbum:
     next_num_id = 1
+    albums = []
 
     def __init__(self, id):
         self.id = id
@@ -18,7 +19,9 @@ class SpotifyAlbum:
 
         self.num_id = self.__class__.next_num_id
         self.__class__.next_num_id += 1
+        self.__class__.albums.append(self)
 
     @classmethod
-    def reset_num_id(cls):
+    def reset(cls):
         cls.next_num_id = 1
+        cls.albums = []

@@ -3,7 +3,7 @@ This is a very simple Flask Application example that calls some APIs.
 
 	Objective: Make a very simple Flask Application example that calls some APIs. 
 	program: flask-api-calls
-	version: 1.0.5
+	version: 1.0.7
 	author: Joan A. Pinol
 	author_nickname: japinol
 	author_gitHub: japinol7
@@ -60,6 +60,7 @@ This is a very simple Flask Application example that calls some APIs.
                                                                         and tracks, directly from the Spotify Data Catalogue.
                                                                         * Web API | Spotify for Developers
                                                                           https://developer.spotify.com/documentation/web-api/
+                                                                          https://developer.spotify.com/documentation/web-api/reference/search/
                                                                           https://developer.spotify.com/documentation/general/guides/authorization/
                                                                           https://developer.spotify.com/documentation/general/guides/authorization/app-settings/
                                                                         

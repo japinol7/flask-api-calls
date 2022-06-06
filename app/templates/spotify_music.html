@@ -12,9 +12,19 @@
                         <p><strong>Search Spotify Music Albums<br>
                             <span class="body_highlight_color_2">(An API key is needed)</span></strong>
                         </p>
-                        <p><strong>Artist to search</strong></p>
+                        <p><strong>Artist name to search</strong></p>
                         <input name="spotify_music_artist" id="spotify_music_artist" type="text"
-                               placeholder="Eg: Hilary Hahn" required>
+                               placeholder="Eg: Hilary Hahn">
+
+                        <p><strong>Artist ID to search</strong></p>
+                        <input name="spotify_music_artist_uri_id" id="spotify_music_artist_uri_id" type="text"
+                               placeholder="Eg: 5JdT0LYJdlPbTC58p60WTX">
+
+
+                        <p><strong>Album name to search</strong></p>
+                        <input name="spotify_music_album" id="spotify_music_album" type="text"
+                               placeholder="Eg: Sundown Over Ghost Town">
+
                         <p><strong>Match title method</strong></p>
                         <select name="spotify_artist_match_method" id="spotify_artist_match_method" type="text" required>
                             <option value="">&lt;Select a method&gt;</option>
@@ -22,7 +32,7 @@
                         </select>
                         <p><strong>Max. returned albums (max. 5000)</strong></p>
                         <input name="spotify_albums_limit" id="spotify_albums_limit" type="number"
-                               placeholder="Eg: 99" value="200" required min="1" max="5000">
+                               placeholder="Eg: 99" value="75" required min="1" max="5000">
                         <p><strong>Order by</strong></p>
                         <select name="spotify_albums_order_by" id="spotify_albums_order_by" type="text" required>
                             <option value="">&lt;Select a sorting method&gt;</option>
@@ -30,10 +40,124 @@
                         </select>
                     </div>
             </div>
-            <button class="submit-albums-random">Submit</button>
+            <button class="submit-albums">Submit</button>
+        </form>
+
+        <form class="spotify-form-class" id="spotify_form_artists"
+              action="/spotify-music" method="POST" style="background:#b2c8f6">
+            <div class="row">
+                    <div class="col">
+                        <p><strong>Search Spotify Music Artists<br>
+                            <span class="body_highlight_color_2">(An API key is needed)</span></strong>
+                        </p>
+                        <p><strong>Artist name to search</strong></p>
+                        <input name="spotify_artist" id="spotify_artist" type="text"
+                               placeholder="Eg: Hilary Hahn">
+
+                        <p><strong>Artist ID to search</strong></p>
+                        <input name="spotify_artist_uri_id" id="spotify_artist_uri_id" type="text"
+                               placeholder="Eg: 5JdT0LYJdlPbTC58p60WTX">
+                        <p><strong>Max. returned albums (max. 5000)</strong></p>
+                        <input name="spotify_artist_limit" id="spotify_artist_limit" type="number"
+                               placeholder="Eg: 99" value="30" required min="1" max="5000">
+                    </div>
+            </div>
+            <button class="submit-artists">Submit</button>
         </form>
     </div>
 
+
+    {%  if form_executed == 'spotify_form_artists' %}
+    <div class="body">
+        <br>
+        <div class="spotify-list-api-call-info">
+            <p>
+                <strong> Retrieve a list of Spotify artists that match some given names.</strong> <br>
+            </p>
+            <p>
+                {% if sp_music_data[1] %}
+                    <a href="https://open.spotify.com/">{{ sp_music_data[2].attribution_text }}.</a>
+                {% else %}
+                    <a href="https://open.spotify.com/">Data provided by Spotify. © 2022 Spotify.</a>
+                {% endif %}
+                You can check the Spotify Music website here:
+                <span class="body_small"><a href="https://open.spotify.com/">https://open.spotify.com/</a> </span>
+            <p>
+                {%  if form_executed == 'spotify_form_artists' %}
+                        # Spotify artists with name that contains <strong>{{ sp_music_data[0] and sp_music_data[0][0] or sp_music_data[0] }}</strong> ,
+                    match method: <strong>{{ sp_music_data[0] and sp_music_data[0][4] or '' }}</strong> ,
+                    limit: <strong>{{ sp_music_data[0] and sp_music_data[0][1] or '-' }}</strong> ,
+                    order by: <strong>{{ sp_music_data[0] and sp_music_data[0][6] or '-' }}</strong>
+                    found
+                {% else %}
+                        # Spotify artist with name contains <strong> __ </strong> found
+                {% endif %}
+                :
+                <strong>{{ sp_music_data[1] }}</strong> .
+            </p>
+        </div>
+
+        {% if sp_music_data and sp_music_data[4]['error'] %}
+            <div class="general-list-api-call-error">
+                <br>
+                <p><strong>API Error:  {{ sp_music_data[4]['error'] }} </strong> </p>
+                <br>
+            </div>
+        {% endif %}
+
+        <table class="mui-table mui-table--bordered">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Followers</th>
+                <th>Popularity</th>
+                <th>URL / URL Image</th>
+                <th>Image</th>
+            </tr>
+            </thead>
+            {% if sp_music_data and sp_music_data[2] %}
+                <tbody>
+                {% for item in sp_music_data[2] %}
+                    <tr>
+                        <td>{{ item.num_id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.followers }}</td>
+                        <td>{{ item.popularity }}</td>
+                        <td class="body_small"><a href="{{ item.url }}">{{ item.url }}</a></td>
+                        <td>
+                            <img src="{{ item.image_url }}" style="height: 200px;"
+                                 alt="{{ item.image_url }} picture">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>     <td></td>     <td></td>     <td></td>     <td></td>
+                        <td class="body_small"><a href="{{ item.image_url }}">{{ item.image_url }}</a></td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+		    {% else %}
+                <tbody>
+                <tr>
+                    <td></td>     <td></td>     <td></td>     <td></td>     <td></td>
+                    <td class="body_small"></td>
+                    <td></td>
+                </tr>
+                </tbody>
+		    {% endif %}
+        </table>
+    </div>
+    {% endif %}
+
+
+
+
+{# ----------------------------------------------------------- #}
+
+    {%  if form_executed == 'spotify_form_albums' %}
     <div class="body">
         <br>
         <div class="spotify-list-api-call-info">
@@ -41,33 +165,34 @@
                 <strong> Retrieve a list of Spotify albums which artist contains some given text.</strong> <br>
             </p>
             <p>
-                {% if albums[1] %}
-                    <a href="https://open.spotify.com/">{{ albums[2].attribution_text }}.</a>
+                {% if sp_music_data[1] %}
+                    <a href="https://open.spotify.com/">{{ sp_music_data[2].attribution_text }}.</a>
                 {% else %}
                     <a href="https://open.spotify.com/">Data provided by Spotify. © 2022 Spotify.</a>
                 {% endif %}
                 You can check the Spotify Music website here:
                 <span class="body_small"><a href="https://open.spotify.com/">https://open.spotify.com/</a> </span>
             <p>
-                {%  if form_executed == 'spotify_form_music' %}
-                        # Spotify albums of title that starts with <strong>{{ albums[0] and albums[0][0] or albums[0] }}</strong> ,
-                    match method: <strong>{{ albums[0] and albums[0][4] or '' }}</strong> ,
-                    limit: <strong>{{ albums[0] and albums[0][1] or '-' }}</strong> ,
-{#                    dates: (<strong>{{ albums[0] and albums[0][2] or '-' }}, {{ albums[0] and albums[0][3] or '-' }}</strong>) ,#}
-                    order by: <strong>{{ albums[0] and albums[0][5] or '-' }}</strong>
-                    found on
+                {%  if form_executed == 'spotify_form_albums' %}
+                        # Spotify albums of title that starts with <strong>{{ sp_music_data[0] and sp_music_data[0][0] or sp_music_data[0] }}</strong> ,
+                    album name: <strong>{{ sp_music_data[0] and sp_music_data[0][7] or '-' }}</strong> ,
+                    match method: <strong>{{ sp_music_data[0] and sp_music_data[0][4] or '' }}</strong> ,
+                    limit: <strong>{{ sp_music_data[0] and sp_music_data[0][1] or '-' }}</strong> ,
+                    dates: (<strong>{{ sp_music_data[0] and sp_music_data[0][2] or '-' }}, {{ sp_music_data[0] and sp_music_data[0][3] or '-' }}</strong>) ,
+                    order by: <strong>{{ sp_music_data[0] and sp_music_data[0][6] or '-' }}</strong>
+                    found
                 {% else %}
                         # Spotify albums of title that starts with <strong> __ </strong> found
                 {% endif %}
                 :
-                <strong>{{ albums[1] }}</strong> .
+                <strong>{{ sp_music_data[1] }}</strong> .
             </p>
         </div>
 
-        {% if albums and albums[4]['error'] %}
-            <div class="nasa-list-api-call-error">
+        {% if sp_music_data and sp_music_data[4]['error'] %}
+            <div class="general-list-api-call-error">
                 <br>
-                <p><strong>API Error:  {{ albums[4]['error'] }} </strong> </p>
+                <p><strong>API Error:  {{ sp_music_data[4]['error'] }} </strong> </p>
                 <br>
             </div>
         {% endif %}
@@ -84,15 +209,15 @@
                 <th>Image</th>
                 <th>Album Type</th>
                 <th>Type</th>
-                <th>id</th>
+                <th>id  /  artist id</th>
                 <th>URI</th>
                 <th>Artists</th>
                 <th>Artist URL / Artist Image URL</th>
             </tr>
             </thead>
-            {% if albums and albums[3] %}
+            {% if sp_music_data and sp_music_data[3] %}
                 <tbody>
-                {% for item in albums[3] %}
+                {% for item in sp_music_data[3] %}
                     <tr>
                         <td>{{ item.num_id }}</td>
                         <td>{{ item.artist.name }}</td>
@@ -116,7 +241,8 @@
                         <td class="body_small"><a href="{{ item.image_url }}">{{ item.image_url }}</a></td>
                         </td>
                         <td></td>     <td></td>     <td></td>
-                        <td></td>     <td></td>     <td></td>
+                        <td>{{ item.artist.id }}</td>
+                        <td></td>     <td></td>
                         <td class="body_small"><a href="{{ item.artist.image_url }}">{{ item.artist.image_url }}</a></td>
                     </tr>
                 {% endfor %}
@@ -133,4 +259,5 @@
 		    {% endif %}
         </table>
     </div>
+    {% endif %}
 {% endblock %}
