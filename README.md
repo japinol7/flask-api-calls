@@ -69,10 +69,15 @@ This is a very simple Flask Application example that calls some APIs.
                                                                             https://spotipy.readthedocs.io/
 
                                                                         * An API key is needed to request the API
-                                                                          * Regarding this example you must create the folder spotify_api_keys in the HOME directory
-                                                                            with a file containing your API public key (spotify_public_key.key)
-                                                                            and another file containing your API private key spotify_private_key.key
+                                                                          * Regarding this example you must create the folder spotify_api_keys in yout $HOME directory
+                                                                            with a file containing your Spotify Client ID (spotify_client_id.key)
+                                                                            and another file containing your Spotify Client Secret spotify_client_secret.key
                                                                             You can copy this directory structure from the extra folder of this project.
+                                                                            Tree from your $HOME directory:
+                                                                               .api_keys
+                                                                                    spotify_api_keys
+                                                                                        spotify_client_id.key
+                                                                                        spotify_client_secret.key
 
     Marvel Comics           https://www.marvel.com/comics/	            The Marvel Comics API is a tool to help developers everywhere create amazing,
                                                                         uncanny and incredible web sites and applications using data from the 
@@ -82,6 +87,12 @@ This is a very simple Flask Application example that calls some APIs.
                                                                             with a file containing your API public key (marvel_public_key.key)
                                                                             and another file containing your API private key marvel_private_key.key
                                                                             You can copy this directory structure from the extra folder of this project.
+                                                                                Tree from your $HOME directory:
+                                                                                .api_keys
+                                                                                    marvel_api_keys
+                                                                                        marvel_private_key.key
+                                                                                        marvel_public_key.key
+
                                                                         The Marvel API suite and portal are in beta and is an evolving project.
                                                                         There is really a lot of good stuff to request from Marvel API.
                                                                         Data provided by Marvel. © 2021 Marvel.
