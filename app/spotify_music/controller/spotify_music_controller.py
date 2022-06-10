@@ -33,27 +33,30 @@ class SpotifyMusicController:
         self.order_by = order_by
         self.only_artists = only_artists
         self.album_name = album_name
-
         self.spotify = None
-        self.albums = None
-        self.artists = None
 
-        self.reset()
+        self._reset()
 
-    def reset(self):
+        self.items_len = 0
+        self.albums = SpotifyAlbum.albums
+        self.artists = SpotifyArtist.artists
+        self.error_msg = ''
+        self.errors = {'error': self.error_msg}
+
+    def _reset(self):
         self.spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
         SpotifyArtist.reset()
         SpotifyAlbum.reset()
 
     def get_spotify_music(self):
         artist_items = []
+        artist_results = {}
         album_results = {}
+        artist = None
 
         if not self.artist_name and not self.artist_uri_id and not self.album_name:
-            error_msg = "Not enough input data."
-            res = ((self.artist_name, self.limit, self.start_date, self.end_date,
-                    self.artist_match_method, self.artist_uri_id, self.order_by, self.album_name),
-                   0, None, [], {'error': error_msg})
+            self.error_msg = "Not enough input data."
+            res = self._get_response()
             log.info(res)
             return res
 
@@ -77,10 +80,8 @@ class SpotifyMusicController:
             log.warning(f"SpotifyException: {e}")
 
         if not self.album_name and len(artist_items) < 1:
-            error_msg = "No artist found" if self.only_artists else "Artist not found"
-            res = ((self.artist_name, self.limit, self.start_date, self.end_date, self.artist_match_method,
-                    self.artist_uri_id, self.order_by, self.album_name),
-                   0, None, [], {'error': error_msg})
+            self.error_msg = "No artist found" if self.only_artists else "Artist not found"
+            res = self._get_response()
             log.info(res)
             return res
 
@@ -91,29 +92,30 @@ class SpotifyMusicController:
         if not self.album_name:
             artist_data = artist_items[0]
             artist = SpotifyArtist(artist_data['id'])
-            self.fill_artist_fields(artist, artist_data)
+            self._fill_artist_fields(artist, artist_data)
             log.info(f"Artist: {artist.name}, followers: {artist.followers} "
                      f"popularity: {artist.popularity} uri/url {artist.uri} {artist.url}")
 
-        albums = []
         if self.album_name:
-            self.get_spotify_albums(album_results)
-            albums = SpotifyAlbum.albums
-            items_len = len(albums)
+            self._get_spotify_albums(album_results)
+            self.items_len = len(self.albums)
         elif self.only_artists:
-            self.get_spotify_other_artists(artist_results)
-            items_len = len(SpotifyArtist.artists)
+            self._get_spotify_other_artists(artist_results)
+            self.items_len = len(SpotifyArtist.artists)
         else:
-            self.get_spotify_albums_from_artist(artist)
-            albums = SpotifyAlbum.albums
-            items_len = len(albums)
+            self._get_spotify_albums_from_artist(artist)
+            self.items_len = len(self.albums)
 
-        return ((self.artist_name, self.limit, self.start_date, self.end_date, self.artist_match_method,
-                 self.artist_uri_id, self.order_by, self.album_name),
-                items_len, SpotifyArtist.artists, albums, {'error': ''})
+        return self._get_response()
 
-    def get_spotify_albums(self, albums_results):
-        albums = []
+    def _get_response(self):
+        return (
+            (self.artist_name, self.limit, self.start_date, self.end_date, self.artist_match_method,
+             self.artist_uri_id, self.order_by, self.album_name
+             ),
+            self.items_len, self.artists, self.albums, self.errors)
+
+    def _get_spotify_albums(self, albums_results):
         albums_data = albums_results['items']
         while albums_results['next'] and len(albums_data) < self.limit:
             albums_results = self.spotify.next(albums_results)['albums']
@@ -127,10 +129,9 @@ class SpotifyMusicController:
             artist.name = artist_data['name']
             artist.uri = artist_data['uri']
             artist.url = artist_data['external_urls']['spotify']
-            self.fill_album_fields(album, album_data, artist)
-            albums.append(album)
+            self._fill_album_fields(album, album_data, artist)
 
-    def get_spotify_albums_from_artist(self, artist):
+    def _get_spotify_albums_from_artist(self, artist):
         albums = []
         albums_results = self.spotify.artist_albums(artist.uri, album_type='album')
         albums_data = albums_results['items']
@@ -141,10 +142,10 @@ class SpotifyMusicController:
         for album_data in albums_data[:self.limit]:
             log.info(f"Album: {album_data['name']}")
             album = SpotifyAlbum(id=album_data['id'])
-            self.fill_album_fields(album, album_data, artist)
+            self._fill_album_fields(album, album_data, artist)
             albums.append(album)
 
-    def get_spotify_other_artists(self, artist_results):
+    def _get_spotify_other_artists(self, artist_results):
         artists_data = artist_results['artists']['items']
         limit_effective = self.limit + ARTISTS_LIMIT_MARGIN_DISCARDED
         while artist_results['artists']['next'] and len(artists_data) < limit_effective:
@@ -160,11 +161,11 @@ class SpotifyMusicController:
             if len(SpotifyArtist.artists) >= self.limit:
                 break
             other_artist = SpotifyArtist(other_artist_data['id'])
-            self.fill_artist_fields(other_artist, other_artist_data)
+            self._fill_artist_fields(other_artist, other_artist_data)
             log.info(f"--- Another artist: {other_artist.name}, followers: {other_artist.followers} "
                      f"popularity: {other_artist.popularity} uri/url {other_artist.uri} {other_artist.url}")
 
-    def fill_album_fields(self, album, item, artist):
+    def _fill_album_fields(self, album, item, artist):
         album.name = item['name']
         album.artist = artist
         album.artists = [x['name'] for x in item['artists']]
@@ -176,7 +177,7 @@ class SpotifyMusicController:
         album.album_type = item['album_type']
         album.type = item['type']
 
-    def fill_artist_fields(self, artist, item):
+    def _fill_artist_fields(self, artist, item):
         artist.name = item['name']
         artist.followers = item['followers']['total']
         artist.uri = item['uri']
