@@ -9,8 +9,8 @@ This is a very simple Flask Application example that calls some APIs.
 	author_gitHub: japinol7
 	author_twitter: @japinol
 	Python requires: 3.8 or greater.
-##
-    Kudos to the APIs we have used in this little project:
+
+## Kudos to the APIs we have used in this little project:
     API                     Website                                     Comment
     ----------------------  ------------------------------------------  ----------------------------------------------------------------------------------
     Jikan                   https://jikan.moe/                          Jikan (時間) is an open-source PHP & REST API for MyAnimeList.net. 
@@ -100,3 +100,14 @@ This is a very simple Flask Application example that calls some APIs.
                                                                         API Documentation: https://developer.marvel.com/docs
 
     Dog API                 https://dog.ceo/dog-api/                    Dog API. Original dataset taken from the the Stanford Dogs Dataset.
+
+
+**To make this web server app to work in your local environment**
+
+	Do this:
+	    1. Clone this repository in your local system.
+	    2. Go to its folder in your system.
+	    3. $ pip install -r requirements.txt
+	    4. $ flask run
+	    5. Open the website indicated in the console in your browser.
+	       Example: http://127.0.0.1:5000/
