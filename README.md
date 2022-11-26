@@ -102,6 +102,16 @@ This is a very simple Flask Application example that calls some APIs.
     Dog API                 https://dog.ceo/dog-api/                    Dog API. Original dataset taken from the the Stanford Dogs Dataset.
 
 
+## Screenshots
+
+<img src="screenshots/screenshot1.png"> <br/> <br/>
+<img src="screenshots/screenshot2.png"> <br/> <br/>
+<img src="screenshots/screenshot3.png"> <br/> <br/>
+<img src="screenshots/screenshot4.png"> <br/> <br/>
+<img src="screenshots/screenshot5.png"> <br/> <br/>
+<img src="screenshots/screenshot6.png"> <br/>
+
+
 **To make this web server app to work in your local environment**
 
 	Do this:
