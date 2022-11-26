@@ -13,13 +13,13 @@ def anime_list():
 
 
 def get_anime_list_of_title(title):
-    r = requests.get(f"https://api.jikan.moe/v3/search/anime?q={title.lower()}&page=1")
+    r = requests.get(f"https://api.jikan.moe/v4/anime/?q={title.lower()}&page=1")
     if not r.ok:
         return title, 0, []
 
     anime_list = []
     anime_data = r.json()
-    for item in anime_data['results']:
-        anime_list.append((item['mal_id'], item['title'], item['url'], item['image_url']))
+    for item in anime_data['data']:
+        anime_list.append((item['mal_id'], item['title'], item['url'], item['images']['jpg']['image_url']))
 
     return title, len(anime_list), anime_list
