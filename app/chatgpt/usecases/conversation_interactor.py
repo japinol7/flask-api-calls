@@ -1,0 +1,2 @@
+class ConversationInteractor:
+    pass
