@@ -46,5 +46,6 @@ if __name__ == '__main__':
     from app.tools.utils import utils
 
     client = ChatGPTClient(api_key=utils.read_file_as_string(OPENAI_API_KEY_FILE))
-    res = client.get_answer("Hi")
+    res = client.get_answer("Please, print the first twelve prime numbers "
+                            "and a Python program that generates them.")
     print(res)
