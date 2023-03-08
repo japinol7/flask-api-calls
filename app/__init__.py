@@ -5,6 +5,7 @@ app = Flask(__name__)
 from . import views
 from . import pokemon
 from . import anime_list
+from . import chatgpt
 from . import nasa_apod
 from . import nasa_asteroid
 from . import nasa_exoplanet

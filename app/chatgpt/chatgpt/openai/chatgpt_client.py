@@ -7,7 +7,6 @@ class ChatgptError(Exception):
 
 
 class ChatGPTClient:
-
     def __init__(self, api_key):
         self.api_key = api_key
         self.url = None

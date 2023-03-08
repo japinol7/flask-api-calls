@@ -1,1 +1,1 @@
-from . import chatgpt_chat_view
+from . import chatgpt_view

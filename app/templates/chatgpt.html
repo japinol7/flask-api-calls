@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 style="background:#ab1703">ChatGPT API call - In Development </h1>
+
+    <div class="body">
+        <br>
+        <form class="chatgpt-form-class" id="chatgpt_form_conversation"
+              action="/chatgpt" method="POST" style="background:#b2c8f6">
+            <div class="row">
+                    <div class="col">
+                        <p><strong>ChatGPT Assistant <br>
+                            <span class="body_highlight_color_2">(An API key is needed)</span></strong>
+                        </p>
+                        <p><strong>Enter Message</strong></p>
+                        <input name="chatgpt_msg" id="chatgpt_msg" type="text"
+                               placeholder="Eg: Hi! What are the components of the Model-View-Controller?"
+                               required>
+                    </div>
+            </div>
+            <button class="submit-messages-random">Submit</button>
+        </form>
+    </div>
+
+    <div class="body">
+        <br>
+        <div class="chatgpt-list-api-call-info">
+            <p>
+                <strong> Retrieve a list of ChatGPT messages.</strong> <br>
+            </p>
+        </div>
+
+        {% if messages and messages['error'] %}
+            <div class="general-list-api-call-error">
+                <br>
+                <p><strong>API Error:  {{ messages[4]['error'] }} </strong> </p>
+                <br>
+            </div>
+        {% endif %}
+
+        <table class="mui-table mui-table--bordered">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>Author</th>
+                <th>Message</th>
+            </tr>
+            </thead>
+            {% if messages['messages'] %}
+                <tbody>
+                {% for item in messages['messages'] %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.author }}</td>
+                        <td>{{ item.text }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+		    {% else %}
+                <tbody>
+                <tr>
+                    <td></td>     <td></td>     <td></td>
+                </tr>
+                </tbody>
+		    {% endif %}
+        </table>
+    </div>
+{% endblock %}
