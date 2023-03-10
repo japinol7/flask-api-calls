@@ -79,6 +79,27 @@ This is a very simple Flask Application example that calls some APIs.
                                                                                         spotify_client_id.key
                                                                                         spotify_client_secret.key
 
+    OpenAI ChatGPT           https://platform.openai.com/	            The OpenAI API can be applied to virtually any task that involves
+                                                                        understanding or generating natural language or code.
+                                                                        We use their API in this project to interact with ChatGPT
+                                                                        using the model gpt-3.5-turbo.
+                                                                        
+                                                                        An API key is needed to request the API.
+                                                                            Regarding this example you must create the folder openai_api_keys in the HOME directory
+                                                                            with a file containing your API private key marvel_private_key.key
+                                                                            You can copy this directory structure from the extra folder of this project.
+                                                                                Tree from your $HOME directory:
+                                                                                .api_keys
+                                                                                    openai_api_keys
+                                                                                        openai_private_key.key
+
+                                                                        * ChatGPT website: 
+                                                                          https://chat.openai.com/chat
+
+                                                                        * API Documentation: 
+                                                                          https://platform.openai.com/docs/introduction
+                                                                          https://platform.openai.com/docs/api-reference/introduction
+
     Marvel Comics           https://www.marvel.com/comics/	            The Marvel Comics API is a tool to help developers everywhere create amazing,
                                                                         uncanny and incredible web sites and applications using data from the 
                                                                         several years of the Marvel age of comics.
