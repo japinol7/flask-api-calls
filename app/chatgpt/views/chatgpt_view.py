@@ -4,7 +4,6 @@ from app import app
 
 from ..usecases.conversation_interactor import ConversationInteractor
 from ..models.message import Message
-from ...tools.utils import utils
 
 logging.basicConfig(format='%(asctime)s %(levelname)s %(name)s: %(message)s')
 logger = logging.getLogger(__name__)
@@ -17,13 +16,32 @@ def chatgpt():
     form_executed = None
     if request.method == 'POST' and 'chatgpt_msg' in request.form:
         input_text = request.form.get('chatgpt_msg')
-        msg = Message(1, 'user', input_text)
-        response_text = "I don't know. Really. Please, forgive me already!"
-        response = Message(2, 'assistant', response_text)
+        msg = Message('user', input_text)
+        response_text = "Fake message: I don't know. Really. Please, forgive me already!"
+        response = Message('assistant', response_text)
+        logger.info(msg)
+        logger.info(response)
         messages.update({
-            'messages': [msg, response],
+            'messages': _get_all_msgs(),
             'error': None,
             })
         form_executed = 'chatgpt_form_conversation'
-        logger.info(messages)
+
+    if request.method == 'POST' and 'chatgpt_reload_messages' in request.form:
+        logger.info("Reload conversation")
+        messages.update({
+            'messages': _get_all_msgs(),
+            'error': None,
+            })
+        form_executed = 'chatgpt_form_reload_conversation'
+
+    if request.method == 'POST' and 'chatgpt_new_chat' in request.form:
+        logger.info("New conversation")
+        Message.reset()
+        form_executed = 'chatgpt_form_new_conversation'
+
     return render_template('chatgpt.html', messages=messages, form_executed=form_executed)
+
+
+def _get_all_msgs():
+    return Message.messages

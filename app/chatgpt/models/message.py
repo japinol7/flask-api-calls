@@ -2,8 +2,8 @@ class Message:
     next_num_id = 1
     messages = []
 
-    def __init__(self, id_, author, text):
-        self.id = id_
+    def __init__(self, author, text):
+        self.id = self.__class__.next_num_id
         self.author = author
         self.text = text
 
