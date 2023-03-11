@@ -1,7 +1,9 @@
 from ..models.conversation import Conversation
 from ..models.message import Message
-
+from ..chatgpt.openai.chatgpt_client import ChatGPTClient
+from ..config.config import OPENAI_API_KEY_FILE
 from ...tools.utils import utils
+
 
 import logging
 
@@ -15,7 +17,25 @@ class ConversationInteractor:
 
     def __init__(self):
         self.conversation = None
+        self.chatgpt_client = None
         self.__class__.conversation_interactor = self
+
+        self._get_chatgpt_client()
+
+    def _get_chatgpt_client(self):
+        logger.info("Get ChatGPT client")
+        try:
+            self.chatgpt_client = ChatGPTClient(api_key=utils.read_file_as_string(OPENAI_API_KEY_FILE))
+        except Exception as e:
+            logger.error(f"Error getting ChatGPT client: {e}")
+
+    def get_chatgpt_answer(self, text):
+        logger.info("Get ChatGPT answer")
+        try:
+            return self.chatgpt_client.get_answer(text)
+        except Exception as e:
+            logger.error(f"Error getting ChatGPT answer: {e}")
+            return 'Error getting ChatGPT answer'
 
     @property
     def conversation(self):

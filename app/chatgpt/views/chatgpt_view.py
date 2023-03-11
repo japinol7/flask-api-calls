@@ -20,12 +20,10 @@ def chatgpt():
         conversation_int = ConversationInteractor.reuse_or_create_conversation()
         conversation_int.add_message('user', input_text)
 
-        response_text = ''
         if is_fake_msg:
             response_text = "Fake message: I don't know. Really. Please, forgive me already!"
         else:
-            pass
-            # Get chatgpt response
+            response_text = conversation_int.get_chatgpt_answer(input_text)
 
         conversation_int.add_message('assistant', response_text)
         messages.update({
