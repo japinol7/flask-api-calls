@@ -15,10 +15,18 @@ def chatgpt():
     form_executed = None
     if request.method == 'POST' and 'chatgpt_msg' in request.form:
         input_text = request.form.get('chatgpt_msg')
+        is_fake_msg = 'Fake ChatGPT Message' in request.form.getlist('flags')
 
         conversation_int = ConversationInteractor.reuse_or_create_conversation()
         conversation_int.add_message('user', input_text)
-        response_text = "Fake message: I don't know. Really. Please, forgive me already!"
+
+        response_text = ''
+        if is_fake_msg:
+            response_text = "Fake message: I don't know. Really. Please, forgive me already!"
+        else:
+            pass
+            # Get chatgpt response
+
         conversation_int.add_message('assistant', response_text)
         messages.update({
             'messages': conversation_int.get_messages(),

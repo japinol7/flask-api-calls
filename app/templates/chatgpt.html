@@ -4,43 +4,45 @@
     <h1 style="background:#ab1703">ChatGPT API call - In Development - WIP</h1>
 
     <div class="body">
-        <br>
         <form class="chatgpt-form-class" id="chatgpt_form_conversation"
               action="/chatgpt" method="POST" style="background:#b2c8f6">
-            <div class="row">
-                    <div class="col">
-                        <p><strong>ChatGPT Assistant <br>
-                            <span class="body_highlight_color_2">(An API key is needed)</span></strong>
-                        </p>
-                        <p><strong>Enter Message                     .</strong></p>
-                        <input name="chatgpt_msg" id="chatgpt_msg" type="text"
-                               placeholder="Eg: Hi! What are the components of the Model-View-Controller?"
-                               required>
-                    </div>
-            </div>
+            <p><strong>ChatGPT Assistant <br>
+                <span class="body_highlight_color_2">(An API key is needed)</span></strong>
+            </p>
+            <p><strong>Enter Message .</strong></p>
+            <input name="chatgpt_msg" id="chatgpt_msg" type="text"
+                   placeholder="Eg: Hi! What are the components of the Model-View-Controller?"
+                   required>
             <button class="submit-messages-random">Submit</button>
+            <input type=checkbox name="flags"
+                   style="font-size:6px;"
+                   value="Fake ChatGPT Message">Fake ChatGPT Message<br/>
         </form>
 
-        <form class="chatgpt-form-reload-chat" id="chatgpt_form_reload_conversation"
-              action="/chatgpt" method="POST" style="background:#b2c8f6">
-            <button name="chatgpt_reload_messages" id="chatgpt_reload_messages"
-                    class="chatgpt-reload-chat" style="background:#8fef57"
-                    >Load Last Chat</button>
-        </form>
+        <div>
+            <form class="chatgpt-form-class" id="chatgpt_form_reload_conversation"
+                  action="/chatgpt" method="POST" style="background:#b2c8f6">
+                <button name="chatgpt_reload_messages" id="chatgpt_reload_messages"
+                        style="background:#8fef57"
+                        >Load Current Chat
+                </button>
+            </form>
 
-        <form class="chatgpt-form-new-chat" id="chatgpt_form_new_conversation"
-              action="/chatgpt" method="POST" style="background:#b2c8f6">
-            <button name="chatgpt_new_chat" id="chatgpt_new_chat"
-                    class="chatgpt-new-chat" style="background:#efbf57"
-                    >New Chat - Clear Messages</button>
-        </form>
+            <form class="chatgpt-form-class" id="chatgpt_form_new_conversation"
+                  action="/chatgpt" method="POST" style="background:#b2c8f6">
+                <button name="chatgpt_new_chat" id="chatgpt_new_chat"
+                        class="chatgpt-new-chat" style="background:#efbf57"
+                        >New Chat - Clear Messages
+                </button>
+            </form>
+        </div>
     </div>
 
     <div class="body">
         <br>
         <div class="chatgpt-list-api-call-info">
             <p>
-                <strong> Retrieve a list of ChatGPT messages.</strong> <br>
+                <strong>Chat messages.</strong> <br>
             </p>
         </div>
 
