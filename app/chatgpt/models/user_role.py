@@ -20,6 +20,14 @@ class UserRole:
         self.__class__.next_num_id += 1
         self.__class__.roles.append(self)
 
+    def __str__(self):
+        return f"id: {self.id}, name: {self.name}, type: {self.type}"
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}(" \
+               f"'{self.name}', " \
+               f"'{self.type}')"
+
     @classmethod
     def reset(cls):
         cls.next_num_id = 1

@@ -1,6 +1,5 @@
 class Message:
     next_num_id = 1
-    messages = []
 
     def __init__(self, author, text):
         self.id = self.__class__.next_num_id
@@ -9,9 +8,15 @@ class Message:
 
         self.num_id = self.__class__.next_num_id
         self.__class__.next_num_id += 1
-        self.__class__.messages.append(self)
+
+    def __str__(self):
+        return f"id: {self.id}, author: {self.author}, text: {self.text}"
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}(" \
+               f"'{self.author}', " \
+               f'"{self.text}")'
 
     @classmethod
     def reset(cls):
         cls.next_num_id = 1
-        cls.messages = []
