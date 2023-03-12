@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1 style="background:#ab1703">ChatGPT API call - In Development - WIP</h1>
+    <h1>ChatGPT API call - Assistant</h1>
 
     <div class="body">
         <form class="chatgpt-form-class" id="chatgpt_form_conversation"
@@ -68,7 +68,7 @@
                     <tr>
                         <td>{{ item.id }}</td>
                         <td>{{ item.author }}</td>
-                        <td>{{ item.text }}</td>
+                        <td>{{ item.text | safe }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

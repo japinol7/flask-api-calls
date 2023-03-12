@@ -35,7 +35,8 @@ class ConversationInteractor:
             return self.chatgpt_client.get_answer(text)
         except Exception as e:
             logger.error(f"Error getting ChatGPT answer: {e}")
-            return 'Error getting ChatGPT answer'
+            return "Error getting ChatGPT answer! <br>" \
+                   "Please, check if your API Key file contains a valid private Key."
 
     @property
     def conversation(self):

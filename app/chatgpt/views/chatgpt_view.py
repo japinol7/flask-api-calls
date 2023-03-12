@@ -1,6 +1,8 @@
 import logging
+
 from flask import render_template, request
 from app import app
+import markdown
 
 from ..usecases.conversation_interactor import ConversationInteractor
 
@@ -23,7 +25,8 @@ def chatgpt():
         if is_fake_msg:
             response_text = "Fake message: I don't know. Really. Please, forgive me already!"
         else:
-            response_text = conversation_int.get_chatgpt_answer(input_text)
+            response_text_raw = conversation_int.get_chatgpt_answer(input_text)
+            response_text = markdown.markdown(response_text_raw)
 
         conversation_int.add_message('assistant', response_text)
         messages.update({
