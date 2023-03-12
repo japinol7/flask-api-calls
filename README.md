@@ -3,12 +3,12 @@ This is a very simple Flask Application example that calls some APIs.
 
 	Objective: Make a very simple Flask Application example that calls some APIs. 
 	program: flask-api-calls
-	version: 1.0.7
+	version: 1.0.8
 	author: Joan A. Pinol
 	author_nickname: japinol
 	author_gitHub: japinol7
 	author_twitter: @japinol
-	Python requires: 3.8 or greater.
+	Python requires: 3.10 or greater.
 
 ## Kudos to the APIs we have used in this little project:
     API                     Website                                     Comment
@@ -130,7 +130,8 @@ This is a very simple Flask Application example that calls some APIs.
 <img src="screenshots/screenshot3.png"> <br/> <br/>
 <img src="screenshots/screenshot4.png"> <br/> <br/>
 <img src="screenshots/screenshot5.png"> <br/> <br/>
-<img src="screenshots/screenshot6.png"> <br/>
+<img src="screenshots/screenshot6.png"> <br/> <br/>
+<img src="screenshots/screenshot7.png"> <br/>
 
 
 **To make this web server app to work in your local environment**
