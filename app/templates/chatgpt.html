@@ -5,14 +5,14 @@
 
     <div class="body">
         <form class="chatgpt-form-class" id="chatgpt_form_conversation"
-              action="/chatgpt" method="POST" style="background:#b2c8f6">
+              action="/chatgpt" method="POST" style="background:#b2c8f6;width: 630px;min-width: 200px;max-width: 800px">
             <p><strong>ChatGPT Assistant <br>
                 <span class="body_highlight_color_2">(An API key is needed)</span></strong>
             </p>
-            <p><strong>Enter Message .</strong></p>
-            <input name="chatgpt_msg" id="chatgpt_msg" type="text"
-                   placeholder="Eg: Hi! What are the components of the Model-View-Controller?"
-                   required>
+            <label for="chatgpt_msg"><p><strong>Enter Message</strong></p></label>
+            <textarea name="chatgpt_msg" id="chatgpt_msg" rows="9" cols="70"
+                      placeholder="Eg: Hi! What are the components of the Model-View-Controller?"
+                      required></textarea>
             <button class="submit-messages-random">Submit</button>
             <input type=checkbox name="flags"
                    style="font-size:6px;"

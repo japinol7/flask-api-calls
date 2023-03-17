@@ -4,8 +4,9 @@ from ..chatgpt.openai.chatgpt_client import ChatGPTClient
 from ..config.config import OPENAI_API_KEY_FILE
 from ...tools.utils import utils
 
-
 import logging
+
+FAKE_ANSWER_MSG = "Fake Answer: I don't know. Really. Please, forgive me already!"
 
 logging.basicConfig(format='%(asctime)s %(levelname)s %(name)s: %(message)s')
 logger = logging.getLogger(__name__)
@@ -28,15 +29,6 @@ class ConversationInteractor:
             self.chatgpt_client = ChatGPTClient(api_key=utils.read_file_as_string(OPENAI_API_KEY_FILE))
         except Exception as e:
             logger.error(f"Error getting ChatGPT client: {e}")
-
-    def get_chatgpt_answer(self, text):
-        logger.info("Get ChatGPT answer")
-        try:
-            return self.chatgpt_client.get_answer(text)
-        except Exception as e:
-            logger.error(f"Error getting ChatGPT answer: {e}")
-            return "Error getting ChatGPT answer! <br>" \
-                   "Please, check if your API Key file contains a valid private Key."
 
     @property
     def conversation(self):
@@ -66,6 +58,26 @@ class ConversationInteractor:
 
     def add_message(self, author, text):
         self.conversation.messages += [Message(author, text)]
+
+    def get_conversation_formatted(self):
+        return [ChatGPTClient.format_message(msg.author, msg.text) for msg in self.conversation.messages]
+
+    def get_chatgpt_answer_fake(self, text):
+        self.add_message('user', text)
+        self.add_message('assistant', FAKE_ANSWER_MSG)
+        return FAKE_ANSWER_MSG
+
+    def get_chatgpt_answer(self, text):
+        logger.info("Get ChatGPT answer")
+        try:
+            self.add_message('user', text)
+            answer = self.chatgpt_client.get_answer(self.get_conversation_formatted())
+            self.add_message('assistant', answer)
+            return answer
+        except Exception as e:
+            logger.error(f"Error getting ChatGPT answer: {e}")
+            return "Error getting ChatGPT answer! <br>" \
+                   "Please, check if your API Key file contains a valid private Key."
 
     def __str__(self):
         return f"conversation: {self.conversation}"

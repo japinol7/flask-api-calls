@@ -2,7 +2,6 @@ import logging
 
 from flask import render_template, request
 from app import app
-import markdown
 
 from ..usecases.conversation_interactor import ConversationInteractor
 
@@ -15,7 +14,6 @@ REQUEST_FORM_ID_MAPPINGS = {
     'chatgpt_reload_messages': 'chatgpt_form_reload_conversation',
     'chatgpt_new_chat': 'chatgpt_form_new_conversation',
     }
-FAKE_ANSWER_MSG = "Fake Answer: I don't know. Really. Please, forgive me already!"
 
 
 @app.route('/chatgpt', methods=['GET', 'POST'])
@@ -36,15 +34,12 @@ def process_form_chatgpt_msg(conversation_int):
     input_text = request.form.get('chatgpt_msg')
     is_fake_msg = 'Fake ChatGPT Answer' in request.form.getlist('flags')
 
-    conversation_int.add_message('user', input_text)
     if is_fake_msg:
         logger.info("Generate fake answer")
-        response_text = FAKE_ANSWER_MSG
+        conversation_int.get_chatgpt_answer_fake(input_text)
     else:
-        response_text_raw = conversation_int.get_chatgpt_answer(input_text)
-        response_text = markdown.markdown(response_text_raw)
+        conversation_int.get_chatgpt_answer(input_text)
 
-    conversation_int.add_message('assistant', response_text)
     return {
         'messages': conversation_int.get_messages(),
         'error': None,
