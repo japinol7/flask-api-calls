@@ -132,6 +132,7 @@ This is a very simple Flask Application example that calls some APIs.
 <img src="screenshots/screenshot5.png"> <br/> <br/>
 <img src="screenshots/screenshot6.png"> <br/> <br/>
 <img src="screenshots/screenshot7.png"> <br/> <br/>
+<img src="screenshots/screenshot8.png"> <br/> <br/>
 
 
 **To make this web server app to work in your local environment**

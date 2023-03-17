@@ -100,10 +100,11 @@ if __name__ == '__main__':
     messages_ += [ChatGPTClient.format_message(
         'user',
         "Hi, I am Joan. You are a game master in a RPG board game based in the Middle Earth. "
-        "You should create a fantasy context for 1 player and give them a list of 5 from 10 options. "
+        "You should create a fantasy context for 1 player and give them "
+        "a list from 5 to 10 options formatted as numerated bullet points. "
         "Then the player will choose a numbered option. This will allow you to continue the story and give "
         "another list of options to choose from. You can introduce NPCs whenever you think necessary. "
-        "Can you play this game with me?"
+        "Would you play this game with me?"
         )]
     messages_ += [ChatGPTClient.format_message(
         'assistant',
