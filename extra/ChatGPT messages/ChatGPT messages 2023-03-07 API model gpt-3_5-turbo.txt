@@ -9,10 +9,13 @@ Messages:
 id	Author	Message
 
 -------------
-1	user	Hi, I am Joan. You are a game master in a RPG board game based in the Middle Earth. You should create a fantasy context for 1 player and give them a list from 5 to 10 options formatted as numerated bullet points. Then the player will choose a numbered option. This will allow you to continue the story and give another list of options to choose from. You can introduce NPCs whenever you think necessary. The player can just choose one of the options or do a different action, in which case they will write the action instead of a numbered question. We can start in a forest where two female elves are surrounded by four giant spiders. Would you play this game with me?
+1	user
+
+Hi, I am Joan. You are a game master in a RPG board game based in the Middle Earth. You should create a fantasy context for 1 player and give them a list from 5 to 10 options formatted as numerated bullet points. Then the player will choose a numbered option. This will allow you to continue the story and give another list of options to choose from. You can introduce NPCs whenever you think necessary. The player can just choose one of the options or do a different action, in which case they will write the action instead of a numbered question. We can start in a forest where two female elves are surrounded by four giant spiders. Would you play this game with me?
 
 -------------
 2	assistant	
+
 Of course, Joan! Here's a fantasy context for you:
 
 You find yourself in the bustling city of Minas Tirith, the capital of Gondor. You're a traveler passing through when you hear a commotion. As you approach the city center, you see a group of orcs attacking the city gates.
@@ -26,10 +29,13 @@ Which numbered option would you choose?
 
 
 -------------
-3	user	Join the orcs against Minas Tirith
+3	user
+
+Join the orcs against Minas Tirith
 
 -------------
 4	assistant	
+
 As you approach the orcs, they size you up and one of them growls, "What are you doing here? We do not need any human interference in our plans!"
 
 You notice that they outnumber the Gondorian guards and seem to have a well thought-out strategy. What do you do next?
@@ -41,10 +47,13 @@ Try to sneak into the city while the attention is focused on the gates.
 Engage the orcs in battle on your own, hoping to turn the tide in Gondor's favor.
 
 -------------
-5	user	1
+5	user
+
+1
 
 -------------
 6	assistant	
+
 The orcs eye you warily, but after a moment of consideration, their leader nods and says, "Fine. We can use all the help we can get. Follow me."
 
 As you make your way towards the main army, you notice the strategic coordination of the orcs is impressive. They move as if they've been planning this for months.
@@ -57,10 +66,13 @@ Accept the mission and begin scouting outside the walls.
 Refuse the mission and attempt to flee the orc camp.
 
 -------------
-7	user	I ask them how many money they will pay me for scouting outside the walls.
+7	user
+
+I ask them how many money they will pay me for scouting outside the walls.
 
 -------------
 8	assistant	
+
 The orc leader gives you an incredulous look and responds in a low growl, "We don't have gold to offer. The reward is alive throughout the entire battle and a chance to witness the destruction of our enemy. This is what we stand for and what we offer."
 
 Do you accept this mission and forego any monetary compensation?
@@ -69,10 +81,13 @@ Accept the mission and begin scouting outside the walls.
 Refuse the mission and attempt to flee the orc camp.
 
 -------------
-9	user	1
+9	user
+
+1
 
 -------------
-10	assistant	
+10	assistant
+
 You accept the mission and head out under the cover of darkness.
 
 As you scout around the walls of Minas Tirith, you notice something odd. The orcs were preparing for a siege, but their focus seemed to be on an area that had no strategic significance - the east wall, which is guarded by only a handful of soldiers. You decide to investigate further and sneak your way onto the wall under the cover of night.
@@ -88,10 +103,13 @@ Attempt to block the crevice yourself, hoping to thwart the orc plan.
 Join the orcs and infiltrate the city with them.
 
 -------------
-11	user	2
+11	user
+
+2
 
 -------------
-12	assistant	
+12	assistant
+
 You approach the guards and inform them about the planned infiltration by the orcs, offering your assistance in strengthening the defense.
 
 The guards are initially suspicious of you, but after you provide details about the orc's plan, they begin to see you as an ally. They put you in charge of leading a team of soldiers to fortify the east wall and block the crevice.
@@ -107,10 +125,13 @@ Call out for reinforcements to assist you.
 Try to reason with the orc leader and convince him to abandon the battle.
 
 -------------
-13	user	Ask the Gondorian guards some pieces of gold to continue the fight on their side.
+13	user
+
+Ask the Gondorian guards some pieces of gold to continue the fight on their side.
 
 -------------
 14	assistant	
+
 The Gondorian guards, who were initially suspicious of you, now feel betrayed by your request for payment. They refuse your offer, saying that they fight for the good of their realm, not for money. They demand that you continue your fight and not be swayed by personal greed.
 
 What do you do?
@@ -122,10 +143,13 @@ Try to convince the Gondorian guards that you're fighting for a greater cause th
 Switch sides and support the orcs in their battle against the Gondorians.
 
 -------------
-15	user	5
+15	user
+
+5
 
 -------------
-16	assistant	
+16	assistant
+
 You choose to switch sides and support the orcs in their attempt to destroy Minas Tirith. You quickly leave the east wall and make your way to the orc leader.
 
 However, upon arriving at the Orc leader's side, you can't ignore the nagging feeling of guilt and betrayal of your former allies.
@@ -139,10 +163,13 @@ Double-cross the orcs by taking the information and sword they gave you and givi
 Offer an ultimatum to the orcs, attempting to convince them to abandon the battle and leave the city unharmed.
 
 -------------
-17	user	Try to steal a valuable item from the Orc leader.
+17	user
+
+Try to steal a valuable item from the Orc leader.
 
 -------------
 18	assistant	
+
 You wait for the opportune moment when the orc leader is distracted, and you quietly make your way towards his tent. You manage to get inside undetected and start rummaging through his belongings, looking for something valuable.
 
 Just as you find a chest filled with what appears to be some precious gems, the orc leader walks in and cries out in alarm. You're caught in the act!
@@ -156,10 +183,13 @@ Offer to trade the valuable item for your life, hoping to strike a deal with the
 Make a false confession, telling the orc leader that you were hired by the Gondorian army to steal from him.
 
 -------------
-19	user	2
+19	user
+
+2
 
 -------------
 20	assistant	
+
 You draw your weapon and engage the orc leader in battle. The orc leader boasts about his victories and tells you that he has faced far superior opponents than you, but you remain determined.
 
 As the battle rages on, you notice the orc leader is gradually weakening. You see an opening and thrust your sword, successfully killing the orc leader.
@@ -175,10 +205,13 @@ Try to reason with the orcs, offering an explanation for your actions and hoping
 Offer your services to the orcs and hope to regain their trust.
 
 -------------
-21	user	Offer my service to the Orcs telling them that their leader was a traitor and hope to regain their trust.
+21	user
+
+Offer my service to the Orcs telling them that their leader was a traitor and hope to regain their trust.
 
 -------------
 22	assistant	
+
 The orcs reluctantly hear you out, and after some discussion, they start to believe you. Their leader's recent actions have made them suspicious, and they thank you for opening their eyes.
 
 They see you as an ally who's proved their worth in battle, but they're still unsure if they can trust you. One of the orcs suggests that you prove yourself by accompanying them on their next mission.
@@ -191,10 +224,13 @@ Stay neutral and sneakily try to secure some resources for yourself without sidi
 Attempt to negotiate a truce between the orcs and the Gondorians, hoping to find a solution that benefits both sides.
 
 -------------
-23	user	First I take the gems from the dead orc leader. Next I lead the orcs to a trap to help the Gondorian guards.
+23	user
+
+First I take the gems from the dead orc leader. Next I lead the orcs to a trap to help the Gondorian guards.
 
 -------------
 24	assistant	
+
 You take the chest of gems from the dead orc leader and suggest that the orcs should divert their attention towards an even more valuable target - a Gondorian supply convoy carrying important weapons and resources. The orcs buy into your plan, and you lead them to the location of the convoy.
 
 However, you had also informed the Gondorian guards of the orc's plan beforehand, hoping to turn the situation to your advantage. As the orcs attack the convoy, you spring a trap on the unsuspecting orcs, ambushing them from both sides. The orcs, caught off-guard, are taken by surprise and overpowered by the Gondorian forces. The Gondorians eventually emerge victorious.
@@ -208,10 +244,13 @@ Re-consider joining the Orcs in their mission to destroy the human settlements.
 Leave this all behind and journey on towards new adventures in other parts of Middle-earth.
 
 -------------
-25	user	I'll go ahead and eat a well-deserved sausage and cheese sandwich. Then I will leave to unknown places and I will distribute the gems with the poor villagers of some nearby village.
+25	user
+
+I'll go ahead and eat a well-deserved sausage and cheese sandwich. Then I will leave to unknown places and I will distribute the gems with the poor villagers of some nearby village.
 
 -------------
-26	assistant	
+26	assistant
+
 You enjoy a delicious sausage and cheese sandwich and bask in the warmth of your victory. Afterward, you depart towards unknown places, seeking new adventures in Middle-earth.
 
 As you pass by a nearby village, you notice the poverty-stricken inhabitants, barely scraping by to make ends meet. You decide to distribute the chest of gems you took from the orc leader among them, hoping to bring some measure of relief to their struggling lives.
@@ -224,9 +263,12 @@ Game over.
 
 
 -------------
-27	user	Thanks! Have a great day!
+27	user
+
+Thanks! Have a great day!
 
 -------------
-28	assistant	
+28	assistant
+
 You're welcome, Joan! It was fun playing with you. Have a great day too!
-.
+-------------
