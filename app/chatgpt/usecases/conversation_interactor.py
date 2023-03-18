@@ -6,7 +6,7 @@ from ...tools.utils import utils
 
 import logging
 
-FAKE_ANSWER_MSG = "Fake Answer: I don't know. Really. Please, forgive me already!"
+FAKE_ANSWER_MSG = "Fake Answer."
 
 logging.basicConfig(format='%(asctime)s %(levelname)s %(name)s: %(message)s')
 logger = logging.getLogger(__name__)
@@ -57,10 +57,15 @@ class ConversationInteractor:
         return self.conversation.messages
 
     def add_message(self, author, text):
-        self.conversation.messages += [Message(author, text)]
+        self.conversation.messages.update({
+                Message.next_num_id: Message(author, text)
+                })
+
+    def change_message(self, id_, text):
+        self.conversation.messages[id_].text = text
 
     def get_conversation_formatted(self):
-        return [ChatGPTClient.format_message(msg.author, msg.text) for msg in self.conversation.messages]
+        return [ChatGPTClient.format_message(msg.author, msg.text) for msg in self.conversation.messages.values()]
 
     def get_chatgpt_answer_fake(self, text):
         self.add_message('user', text)

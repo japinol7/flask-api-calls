@@ -10,30 +10,41 @@
                 <span class="body_highlight_color_2">(An API key is needed)</span></strong>
             </p>
             <label for="chatgpt_msg"><p><strong>Enter Message</strong></p></label>
-            <textarea name="chatgpt_msg" id="chatgpt_msg" rows="9" cols="70"
+            <textarea name="chatgpt_msg" id="chatgpt_msg" rows="3" cols="74"
                       placeholder="Eg: Hi! What are the components of the Model-View-Controller?"
                       required></textarea>
-            <button class="submit-messages-random">Submit</button>
+            <button class="submit-message">Submit Message</button>
             <input type=checkbox name="flags"
                    style="font-size:6px;"
                    value="Fake ChatGPT Answer">Fake ChatGPT Answer<br/>
+        </form>
+        <form class="chatgpt-form-class" id="chatgpt_form_remove_msg"
+              action="/chatgpt" method="POST" style="background:#b2c8f6;width: 630px;min-width: 200px;max-width: 800px">
+            <label for="chatgpt_input_remove_msg"><p>
+                <strong>Enter message Id</strong></p></label>
+            <input name="chatgpt_input_remove_msg" id="chatgpt_input_remove_msg"
+                   type="number" placeholder="Eg: 2">
+                <br>
+                <strong>Enter edited message </strong></p></label>
+            <textarea name="chatgpt_msg_change" id="chatgpt_msg_change" rows="3" cols="74"
+                    placeholder="Eg: Hi! What are the components of the Model-View-Controller?"
+                    required></textarea>
+            <button name="chatgpt_remove_msg" id="chatgpt_remove_msg"
+                    class="submit-remove-message">Remove Message</button>
+            <button name="chatgpt_change_msg" id="chatgpt_change_msg"
+                    class="submit-change-message">Change Message</button>
         </form>
 
         <div>
             <form class="chatgpt-form-class" id="chatgpt_form_reload_conversation"
                   action="/chatgpt" method="POST" style="background:#b2c8f6">
-                <button name="chatgpt_reload_messages" id="chatgpt_reload_messages"
-                        style="background:#8fef57"
-                        >Load Current Chat
-                </button>
-            </form>
-
-            <form class="chatgpt-form-class" id="chatgpt_form_new_conversation"
-                  action="/chatgpt" method="POST" style="background:#b2c8f6">
                 <button name="chatgpt_new_chat" id="chatgpt_new_chat"
                         class="chatgpt-new-chat" style="background:#efbf57"
-                        >New Chat - Clear Messages
-                </button>
+                        >New Chat</button>
+                <br> <br> <br>
+                <button name="chatgpt_reload_messages" id="chatgpt_reload_messages"
+                        style="background:#8fef57"
+                        >Load Current Chat</button>
             </form>
         </div>
     </div>
