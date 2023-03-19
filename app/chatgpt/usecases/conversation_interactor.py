@@ -81,8 +81,11 @@ class ConversationInteractor:
             return answer
         except Exception as e:
             logger.error(f"Error getting ChatGPT answer: {e}")
-            return "Error getting ChatGPT answer! <br>" \
-                   "Please, check if your API Key file contains a valid private Key."
+            answer = "Error getting ChatGPT answer! <br>" \
+                     "Please, check if your API Key file contains a valid private Key. <br>" \
+                     "Although, it could be that ChatGPT is not available at this moment."
+            self.add_message('assistant', answer)
+            return answer
 
     def __str__(self):
         return f"conversation: {self.conversation}"
