@@ -36,12 +36,14 @@ def process_form_conversation(conversation_int):
     input_text = request.form.get('chatgpt_msg')
     input_text = input_text.strip() if input_text else ''
     is_fake_msg = 'Fake ChatGPT Answer' in request.form.getlist('flags')
+    user_role = request.form.get('chatgpt_user_role')
+    model = request.form.get('chatgpt_ml_model')
 
     if is_fake_msg:
         logger.info("Generate fake answer")
-        conversation_int.get_chatgpt_answer_fake(input_text)
+        conversation_int.get_chatgpt_answer_fake(input_text, user_role, model)
     elif input_text:
-        conversation_int.get_chatgpt_answer(input_text)
+        conversation_int.get_chatgpt_answer(input_text, user_role, model)
 
     return {
         'messages': conversation_int.get_messages().values(),

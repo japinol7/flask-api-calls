@@ -14,10 +14,27 @@
                       placeholder="Eg: Hi! What are the components of the Model-View-Controller?"
                       required></textarea>
             <button class="submit-message">Submit Message</button>
+
             <input type=checkbox name="flags"
                    style="font-size:6px;"
                    value="Fake ChatGPT Answer">Fake ChatGPT Answer<br/>
+
+            <p><strong>User Role</strong></p>
+            <select name="chatgpt_user_role" id="chatgpt_user_role" required>
+                <option value="">&lt;Select a user role&gt;</option>
+                <option value="user" selected>user</option>
+                <option value="system">system</option>
+                <option value="user_role_test_error">user role to test error</option>
+            </select>
+
+            <p><strong>ML Model</strong></p>
+            <select name="chatgpt_ml_model" id="chatgpt_ml_model" required>
+                <option value="">&lt;Select a ML model&gt;</option>
+                <option value="gpt-3.5-turbo" selected>gpt-3.5-turbo</option>
+                <option value="ml_mode_test_error">ML model to test error</option>
+            </select>
         </form>
+
         <form class="chatgpt-form-class" id="chatgpt_form_remove_msg"
               action="/chatgpt" method="POST" style="background:#b2c8f6;width: 630px;min-width: 200px;max-width: 800px">
             <label for="chatgpt_input_remove_msg"><p>

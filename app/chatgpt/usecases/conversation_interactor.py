@@ -7,6 +7,16 @@ from ...tools.utils import utils
 import logging
 
 FAKE_ANSWER_MSG = "Fake Answer."
+USER_ROLES = {'user', 'system'}
+USER_ROLE = 'user'
+ASSISTANT_ROLE = 'assistant'
+ML_MODELS = {'gpt-3.5-turbo'}
+USER_ERROR = 'ERROR'
+
+USER_ROLE_ERROR_MSG = "User Error. Provided user role is " \
+                      "not valid: {user_role} . Text:<br>{text}"
+ML_MODEL_ERROR_MSG = "User Error. Provided ML model is " \
+                     "not valid: {model} . Text:<br>{text}"
 
 logging.basicConfig(format='%(asctime)s %(levelname)s %(name)s: %(message)s')
 logger = logging.getLogger(__name__)
@@ -65,27 +75,57 @@ class ConversationInteractor:
         self.conversation.messages[id_].text = text
 
     def get_conversation_formatted(self):
-        return [ChatGPTClient.format_message(msg.author, msg.text) for msg in self.conversation.messages.values()]
+        return [ChatGPTClient.format_message(msg.author, msg.text)
+                for msg in self.conversation.messages.values()
+                if msg.author != USER_ERROR]
 
-    def get_chatgpt_answer_fake(self, text):
-        self.add_message('user', text)
-        self.add_message('assistant', FAKE_ANSWER_MSG)
+    def get_chatgpt_answer_fake(self, text, user_role, model):
+        if not self._validate_user_role(user_role, text):
+            return USER_ROLE_ERROR_MSG.format(user_role=user_role, text=text)
+        if not self._validate_ml_model(model, text):
+            return ML_MODEL_ERROR_MSG.format(model=model, text=text)
+
+        self.add_message(user_role, text)
+        self.add_message(ASSISTANT_ROLE, FAKE_ANSWER_MSG)
         return FAKE_ANSWER_MSG
 
-    def get_chatgpt_answer(self, text):
+    def get_chatgpt_answer(self, text, user_role, model):
+        if not self._validate_user_role(user_role, text):
+            return USER_ROLE_ERROR_MSG.format(user_role=user_role, text=text)
+        if not self._validate_ml_model(model, text):
+            return ML_MODEL_ERROR_MSG.format(model=model, text=text)
+
         logger.info("Get ChatGPT answer")
         try:
-            self.add_message('user', text)
-            answer = self.chatgpt_client.get_answer(self.get_conversation_formatted())
-            self.add_message('assistant', answer)
+            self.add_message(user_role, text)
+            answer = self.chatgpt_client.get_answer(self.get_conversation_formatted(), model)
+            self.add_message(ASSISTANT_ROLE, answer)
             return answer
         except Exception as e:
             logger.error(f"Error getting ChatGPT answer: {e}")
             answer = "Error getting ChatGPT answer! <br>" \
                      "Please, check if your API Key file contains a valid private Key. <br>" \
                      "Although, it could be that ChatGPT is not available at this moment."
-            self.add_message('assistant', answer)
+            self.add_message(ASSISTANT_ROLE, answer)
             return answer
+
+    def _validate_user_role(self, user_role, text):
+        if user_role in USER_ROLES:
+            return True
+
+        answer = USER_ROLE_ERROR_MSG.format(user_role=user_role, text=text)
+        logger.error(answer)
+        self.add_message(USER_ERROR, answer)
+        return False
+
+    def _validate_ml_model(self, model, text):
+        if model in ML_MODELS:
+            return True
+
+        answer = ML_MODEL_ERROR_MSG.format(model=model, text=text)
+        logger.error(answer)
+        self.add_message(USER_ERROR, answer)
+        return False
 
     def __str__(self):
         return f"conversation: {self.conversation}"

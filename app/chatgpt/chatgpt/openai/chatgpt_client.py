@@ -76,10 +76,10 @@ class ChatGPTClient:
     def format_message(role_name, message):
         return {'role': role_name, 'content': message}
 
-    def get_answer(self, messages):
+    def get_answer(self, messages, model):
         self.response.clear()
         data = {
-            'model': 'gpt-3.5-turbo',
+            'model': model,
             'messages': messages
             }
 
