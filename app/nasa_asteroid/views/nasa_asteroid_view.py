@@ -1,14 +1,9 @@
-import logging
+from ...tools.logger.logger import log
 import requests
 from flask import render_template, request
 from app import app
 
 from ..models.nasa_asteroid import Asteroid
-
-
-logging.basicConfig(format='%(asctime)s %(levelname)s %(name)s: %(message)s')
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
 
 
 @app.route('/nasa-asteroid', methods=['GET', 'POST'])
@@ -33,7 +28,7 @@ def get_nasa_asteroids(start_date, end_date):
     if not r.ok:
         error_msg = get_nasa_request_msg_error(a_request=r)
         res = (start_date, end_date), 0, [], {'error': error_msg}
-        logger.info(res)
+        log.info(res)
         return res
 
     asteroids = []
@@ -54,7 +49,7 @@ def get_nasa_asteroids_by_id(asteroid_id):
     if not r.ok:
         error_msg = get_nasa_request_msg_error(a_request=r)
         res = (asteroid_id, asteroid_id), 0, [], {'error': error_msg}
-        logger.info(res)
+        log.info(res)
         return res
 
     asteroids = []
@@ -75,7 +70,7 @@ def fill_asteroid_fields(asteroid, item):
     asteroid.estimated_diameter_km_max = item['estimated_diameter']['kilometers']['estimated_diameter_max']
     asteroid.is_potentially_hazardous_asteroid = item['is_potentially_hazardous_asteroid']
     if len(item['close_approach_data']) > 1:
-        logger.info(f"Asteroid {asteroid.id}. There are several asteroid 'close_approach_data' items."
+        log.info(f"Asteroid {asteroid.id}. There are several asteroid 'close_approach_data' items."
                     f"But we will take only the first one. We should consider to take all this data.")
     close_approach_data = item['close_approach_data'][0]
     asteroid.relative_velocity_km_per_sec = close_approach_data['relative_velocity']['kilometers_per_second']

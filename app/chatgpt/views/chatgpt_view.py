@@ -1,13 +1,9 @@
-import logging
+from ...tools.logger.logger import log
 
 from flask import render_template, request
 from app import app
 
 from ..usecases.conversation_interactor import ConversationInteractor
-
-logging.basicConfig(format='%(asctime)s %(levelname)s %(name)s: %(message)s')
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
 
 REQUEST_FORM_ID_MAPPINGS = {
     'chatgpt_msg': 'chatgpt_form_conversation',
@@ -32,7 +28,7 @@ def chatgpt():
 
 
 def process_form_conversation(conversation_int):
-    logger.info("Process user input")
+    log.info("Process user input")
     input_text = request.form.get('chatgpt_msg')
     input_text = input_text.strip() if input_text else ''
     is_fake_msg = 'Fake ChatGPT Answer' in request.form.getlist('flags')
@@ -40,7 +36,7 @@ def process_form_conversation(conversation_int):
     model = request.form.get('chatgpt_ml_model')
 
     if is_fake_msg:
-        logger.info("Generate fake answer")
+        log.info("Generate fake answer")
         conversation_int.get_chatgpt_answer_fake(input_text, user_role, model)
     elif input_text:
         conversation_int.get_chatgpt_answer(input_text, user_role, model)
@@ -52,7 +48,7 @@ def process_form_conversation(conversation_int):
 
 
 def process_form_reload_messages(conversation_int):
-    logger.info("Reload conversation")
+    log.info("Reload conversation")
     return {
         'messages': conversation_int.get_messages().values(),
         'error': None,
@@ -60,13 +56,13 @@ def process_form_reload_messages(conversation_int):
 
 
 def process_form_new_chat(conversation_int):
-    logger.info("New conversation")
+    log.info("New conversation")
     conversation_int.reset()
     return {}
 
 
 def process_form_remove_msg(conversation_int):
-    logger.info("Remove Message")
+    log.info("Remove Message")
     msg_id = clean_input_id(request.form.get('chatgpt_input_remove_msg'))
     if msg_id and conversation_int.get_messages().get(msg_id):
         del conversation_int.get_messages()[msg_id]
@@ -78,7 +74,7 @@ def process_form_remove_msg(conversation_int):
 
 
 def process_form_change_msg(conversation_int):
-    logger.info("Change Message")
+    log.info("Change Message")
     msg_id = clean_input_id(request.form.get('chatgpt_input_remove_msg'))
     input_text = request.form.get('chatgpt_msg_change')
     input_text = input_text.strip() if input_text else ''

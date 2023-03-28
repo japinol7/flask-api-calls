@@ -1,14 +1,9 @@
-import logging
+from ...tools.logger.logger import log
 import requests
 from flask import render_template, request
 from app import app
 
 from ..models.nasa_apod import NasaApod
-
-
-logging.basicConfig(format='%(asctime)s %(levelname)s %(name)s: %(message)s')
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
 
 
 @app.route('/nasa-apod', methods=['GET', 'POST'])
@@ -33,7 +28,7 @@ def get_nasa_apods(start_date, end_date):
     if not r.ok:
         error_msg = get_nasa_request_msg_error(a_request=r)
         res = (start_date, end_date), 0, [], {'error': error_msg}
-        logger.info(res)
+        log.info(res)
         return res
 
     apods = []
@@ -54,7 +49,7 @@ def get_nasa_apods_random(qty):
     if not r.ok:
         error_msg = get_nasa_request_msg_error(a_request=r)
         res = (qty, qty), 0, [], {'error': error_msg}
-        logger.info(res)
+        log.info(res)
         return res
 
     apods = []

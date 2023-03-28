@@ -4,7 +4,7 @@ from pathlib import Path
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
-from app.tools.logger.logger import logger as log
+from ...tools.logger.logger import log
 from ..models.spotify_album import SpotifyAlbum
 from ..models.spotify_artist import SpotifyArtist
 from ...tools.utils import utils
@@ -44,7 +44,13 @@ class SpotifyMusicController:
         self.errors = {'error': self.error_msg}
 
     def _reset(self):
-        self.spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
+        try:
+            self.spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
+            self.spotify.search(q='a', type='artist', limit=1)
+        except Exception as e:
+            log.warning(f"SpotifyException: {e}")
+            self.spotify = None
+            return
         SpotifyArtist.reset()
         SpotifyAlbum.reset()
 
@@ -53,6 +59,11 @@ class SpotifyMusicController:
         artist_results = {}
         album_results = {}
         artist = None
+
+        if not self.spotify:
+            self.error_msg = "Cannot initialize Spotify client. Probably the credential keys are not correct."
+            log.warning(self.error_msg)
+            return
 
         if not self.artist_name and not self.artist_uri_id and not self.album_name:
             self.error_msg = "Not enough input data."

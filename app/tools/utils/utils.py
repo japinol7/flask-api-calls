@@ -1,4 +1,4 @@
-from app.tools.logger.logger import logger as log
+from app.tools.logger.logger import log
 
 
 def read_file_as_string(file_name):

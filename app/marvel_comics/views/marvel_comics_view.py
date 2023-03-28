@@ -1,5 +1,5 @@
 import hashlib
-import logging
+from ...tools.logger.logger import log
 import os
 from pathlib import Path
 import requests
@@ -16,10 +16,6 @@ MARVEL_COMICS_WEBSITE = "https://www.marvel.com/comics/"
 MARVEL_API_KEY_FOLDER = os.path.join(str(Path.home()), '.api_keys', 'marvel_api_keys')
 MARVEL_API_KEY_FILE = os.path.join(MARVEL_API_KEY_FOLDER, 'marvel_public_key.key')
 MARVEL_API_PRIVATE_KEY_FILE = os.path.join(MARVEL_API_KEY_FOLDER, 'marvel_private_key.key')
-
-logging.basicConfig(format='%(asctime)s %(levelname)s %(name)s: %(message)s')
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
 
 
 @app.route('/marvel-comics', methods=['GET', 'POST'])
@@ -60,7 +56,7 @@ def get_marvel_comics(title, limit, offset, start_date, end_date, title_match_me
         error_msg = get_marvel_request_msg_error(a_request=r)
         res = ((title, limit, offset, start_date, end_date, title_match_method, order_by),
                0, None, [], {'error': error_msg})
-        logger.info(res)
+        log.info(res)
         return res
 
     comics = []

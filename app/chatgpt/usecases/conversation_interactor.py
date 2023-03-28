@@ -3,24 +3,19 @@ from ..models.message import Message
 from ..chatgpt.openai.chatgpt_client import ChatGPTClient
 from ..config.config import OPENAI_API_KEY_FILE
 from ...tools.utils import utils
-
-import logging
+from ...tools.logger.logger import log
 
 FAKE_ANSWER_MSG = "Fake Answer."
-USER_ROLES = {'user', 'system'}
+VALID_USER_ROLES = {'user', 'system'}
 USER_ROLE = 'user'
 ASSISTANT_ROLE = 'assistant'
-ML_MODELS = {'gpt-3.5-turbo'}
+VALID_ML_MODELS = {'gpt-3.5-turbo'}
 USER_ERROR = 'ERROR'
 
 USER_ROLE_ERROR_MSG = "User Error. Provided user role is " \
                       "not valid: {user_role} . Text:<br>{text}"
 ML_MODEL_ERROR_MSG = "User Error. Provided ML model is " \
                      "not valid: {model} . Text:<br>{text}"
-
-logging.basicConfig(format='%(asctime)s %(levelname)s %(name)s: %(message)s')
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
 
 
 class ConversationInteractor:
@@ -34,11 +29,11 @@ class ConversationInteractor:
         self._get_chatgpt_client()
 
     def _get_chatgpt_client(self):
-        logger.info("Get ChatGPT client")
+        log.info("Get ChatGPT client")
         try:
             self.chatgpt_client = ChatGPTClient(api_key=utils.read_file_as_string(OPENAI_API_KEY_FILE))
         except Exception as e:
-            logger.error(f"Error getting ChatGPT client: {e}")
+            log.error(f"Error getting ChatGPT client: {e}")
 
     @property
     def conversation(self):
@@ -95,14 +90,14 @@ class ConversationInteractor:
         if not self._validate_ml_model(model, text):
             return ML_MODEL_ERROR_MSG.format(model=model, text=text)
 
-        logger.info("Get ChatGPT answer")
+        log.info("Get ChatGPT answer")
         try:
             self.add_message(user_role, text)
             answer = self.chatgpt_client.get_answer(self.get_conversation_formatted(), model)
             self.add_message(ASSISTANT_ROLE, answer)
             return answer
         except Exception as e:
-            logger.error(f"Error getting ChatGPT answer: {e}")
+            log.error(f"Error getting ChatGPT answer: {e}")
             answer = "Error getting ChatGPT answer! <br>" \
                      "Please, check if your API Key file contains a valid private Key. <br>" \
                      "Although, it could be that ChatGPT is not available at this moment."
@@ -110,20 +105,20 @@ class ConversationInteractor:
             return answer
 
     def _validate_user_role(self, user_role, text):
-        if user_role in USER_ROLES:
+        if user_role in VALID_USER_ROLES:
             return True
 
         answer = USER_ROLE_ERROR_MSG.format(user_role=user_role, text=text)
-        logger.error(answer)
+        log.error(answer)
         self.add_message(USER_ERROR, answer)
         return False
 
     def _validate_ml_model(self, model, text):
-        if model in ML_MODELS:
+        if model in VALID_ML_MODELS:
             return True
 
         answer = ML_MODEL_ERROR_MSG.format(model=model, text=text)
-        logger.error(answer)
+        log.error(answer)
         self.add_message(USER_ERROR, answer)
         return False
 

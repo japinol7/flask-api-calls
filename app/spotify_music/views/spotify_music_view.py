@@ -1,13 +1,9 @@
-import logging
+from ...tools.logger.logger import log
 
 from flask import render_template, request
 
 from app import app
 from app.spotify_music.controller.spotify_music_controller import SpotifyMusicController
-
-logging.basicConfig(format='%(asctime)s %(levelname)s %(name)s: %(message)s')
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
 
 
 @app.route('/spotify-music', methods=['GET', 'POST'])

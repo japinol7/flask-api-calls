@@ -1,4 +1,4 @@
-import logging
+from ...tools.logger.logger import log
 import requests
 from flask import render_template, request
 from app import app
@@ -28,10 +28,6 @@ EXOPLANET_COLUMNS = [
     'st_radv',
     ]
 
-logging.basicConfig(format='%(asctime)s %(levelname)s %(name)s: %(message)s')
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
 
 @app.route('/nasa-exoplanet', methods=['GET', 'POST'])
 def nasa_exoplanet():
@@ -53,7 +49,7 @@ def get_nasa_exoplanets(option, name):
     if not r.ok:
         error_msg = get_nasa_request_msg_error(a_request=r)
         res = (option, option), 0, [], {'error': error_msg}
-        logger.info(res)
+        log.info(res)
         return res
 
     exoplanets = []
