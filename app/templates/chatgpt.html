@@ -35,24 +35,37 @@
             </select>
         </form>
 
-        <form class="chatgpt-form-class" id="chatgpt_form_remove_msg"
-              action="/chatgpt" method="POST" style="background:#b2c8f6;width: 630px;min-width: 200px;max-width: 800px">
-            <label for="chatgpt_input_remove_msg"><p>
+        <form class="chatgpt-form-class" id="chatgpt_form_update_msg"
+              action="/chatgpt" method="POST" style="background:#cdcdcd;width: 630px;min-width: 200px;max-width: 800px">
+            <label for="chatgpt_input_update_msg"><p>
                 <strong>Enter message Id</strong></p></label>
-            <input name="chatgpt_input_remove_msg" id="chatgpt_input_remove_msg"
-                   type="number" placeholder="Eg: 2">
+            <input name="chatgpt_input_update_msg" id="chatgpt_input_update_msg"
+                   type="number" placeholder="Eg: 2" required>
                 <br>
-                <strong>Enter edited message </strong></p></label>
-            <textarea name="chatgpt_msg_change" id="chatgpt_msg_change" rows="3" cols="74"
+                <strong>Enter new message text for the selected id </strong></p></label>
+            <textarea name="chatgpt_msg_update" id="chatgpt_msg_update" rows="3" cols="74"
                     placeholder="Eg: Hi! What are the components of the Model-View-Controller?"
                     required></textarea>
-            <button name="chatgpt_remove_msg" id="chatgpt_remove_msg"
-                    class="submit-remove-message">Remove Message</button>
-            <button name="chatgpt_change_msg" id="chatgpt_change_msg"
-                    class="submit-change-message">Change Message</button>
+            <button name="chatgpt_update_msg" id="chatgpt_update_msg"
+                    class="submit-update-message"
+                    style="background:#a9bd85"
+                    >Update Message</button>
         </form>
 
         <div>
+            <form class="chatgpt-form-class" id="chatgpt_form_remove_msg"
+                  action="/chatgpt" method="POST" style="background:#cdcdcd;width: 630px;min-width: 200px;max-width: 800px">
+                <label for="chatgpt_input_remove_msg"><p>
+                    <strong>Enter message Id</strong></p></label>
+                <input name="chatgpt_input_remove_msg" id="chatgpt_input_remove_msg"
+                       type="number" placeholder="Eg: 2" required>
+                    <br>
+                <button name="chatgpt_remove_msg" id="chatgpt_remove_msg"
+                        class="submit-remove-message"
+                        style="background:#a9bd85"
+                        >Remove Message</button>
+            </form>
+
             <form class="chatgpt-form-class" id="chatgpt_form_reload_conversation"
                   action="/chatgpt" method="POST" style="background:#b2c8f6">
                 <button name="chatgpt_new_chat" id="chatgpt_new_chat"

@@ -9,8 +9,8 @@ REQUEST_FORM_ID_MAPPINGS = {
     'chatgpt_msg': 'chatgpt_form_conversation',
     'chatgpt_reload_messages': 'chatgpt_form_reload_conversation',
     'chatgpt_new_chat': 'chatgpt_form_new_conversation',
+    'chatgpt_update_msg': 'chatgpt_form_update_msg',
     'chatgpt_remove_msg': 'chatgpt_form_remove_msg',
-    'chatgpt_change_msg': 'chatgpt_form_change_msg',
     }
 
 
@@ -66,6 +66,8 @@ def process_form_remove_msg(conversation_int):
     msg_id = clean_input_id(request.form.get('chatgpt_input_remove_msg'))
     if msg_id and conversation_int.get_messages().get(msg_id):
         del conversation_int.get_messages()[msg_id]
+    else:
+        log.warning(f"User Error. Id to remove does not exist: {msg_id}")
 
     return {
         'messages': conversation_int.get_messages().values(),
@@ -73,13 +75,15 @@ def process_form_remove_msg(conversation_int):
         }
 
 
-def process_form_change_msg(conversation_int):
-    log.info("Change Message")
-    msg_id = clean_input_id(request.form.get('chatgpt_input_remove_msg'))
-    input_text = request.form.get('chatgpt_msg_change')
+def process_form_update_msg(conversation_int):
+    log.info("Update Message")
+    msg_id = clean_input_id(request.form.get('chatgpt_input_update_msg'))
+    input_text = request.form.get('chatgpt_msg_update')
     input_text = input_text.strip() if input_text else ''
     if msg_id and input_text and conversation_int.get_messages().get(msg_id):
-        conversation_int.change_message(msg_id, input_text)
+        conversation_int.update_message(msg_id, input_text)
+    else:
+        log.warning(f"User Error. Id to update does not exist: {msg_id}")
 
     return {
         'messages': conversation_int.get_messages().values(),
@@ -95,6 +99,6 @@ REQUEST_FORM_FUNCT_MAPPINGS = {
     'chatgpt_msg': process_form_conversation,
     'chatgpt_reload_messages': process_form_reload_messages,
     'chatgpt_new_chat': process_form_new_chat,
+    'chatgpt_update_msg': process_form_update_msg,
     'chatgpt_remove_msg': process_form_remove_msg,
-    'chatgpt_change_msg': process_form_change_msg,
     }

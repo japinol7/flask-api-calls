@@ -66,7 +66,7 @@ class ConversationInteractor:
                 Message.next_num_id: Message(author, text)
                 })
 
-    def change_message(self, id_, text):
+    def update_message(self, id_, text):
         self.conversation.messages[id_].text = text
 
     def get_conversation_formatted(self):
