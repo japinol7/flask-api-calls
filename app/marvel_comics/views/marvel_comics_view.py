@@ -1,15 +1,17 @@
+from datetime import datetime
 import hashlib
-from ...tools.logger.logger import log
 import os
 from pathlib import Path
 import requests
-from datetime import datetime
-from flask import render_template, request
-from app import app
 
+from flask import render_template, request
+
+from app import app
 from ..models.marvel_comic import MarvelComic
 from ..models.marvel_general_data import MarvelGeneralData
+from ...tools.logger.logger import log
 from ...tools.utils import utils
+from ...tools.utils.tls_adapter import TLSAdapter
 
 
 MARVEL_COMICS_WEBSITE = "https://www.marvel.com/comics/"
@@ -45,13 +47,18 @@ def get_marvel_comics(title, limit, offset, start_date, end_date, title_match_me
     date_range = f"{start_date},{end_date}" if start_date and end_date else ''
     date_range_txt = f"&dateRange={date_range}" if date_range else ''
     title_match_method_search = 'title' if title_match_method == 'exact_match' else 'titleStartsWith'
-    r = requests.get(f"https://gateway.marvel.com:443/v1/public/comics?"
-                     f"format=comic&formatType=comic&"
-                     f"limit={limit}{offset_txt}{date_range_txt}&"
-                     f"noVariants=True&"
-                     f"{title_match_method_search}={title}&"
-                     f"ts={ts}&apikey={api_key}&hash={md5_hash}&"
-                     f"orderBy={order_by}")
+
+    url = f"https://gateway.marvel.com:443/v1/public/comics?"\
+          f"format=comic&formatType=comic&"\
+          f"limit={limit}{offset_txt}{date_range_txt}&"\
+          f"noVariants=True&"\
+          f"{title_match_method_search}={title}&"\
+          f"ts={ts}&apikey={api_key}&hash={md5_hash}&"\
+          f"orderBy={order_by}"
+
+    session = requests.session()
+    session.mount('https://', TLSAdapter())
+    r = session.get(url)
     if not r.ok:
         error_msg = get_marvel_request_msg_error(a_request=r)
         res = ((title, limit, offset, start_date, end_date, title_match_method, order_by),
