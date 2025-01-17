@@ -3,12 +3,12 @@ This is a very simple Flask Application example that calls some APIs.
 
 	Objective: Make a very simple Flask Application example that calls some APIs. 
 	program: flask-api-calls
-	version: 1.1.1
+	version: 1.1.2
 	author: Joan A. Pinol
 	author_nickname: japinol
 	author_gitHub: japinol7
 	author_twitter: @japinol
-	Python requires: 3.12 or greater.
+	Python requires: 3.13 or greater.
 
 ## Kudos to the APIs we have used in this little project:
     API                     Website                                     Comment
