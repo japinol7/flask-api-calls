@@ -32,8 +32,14 @@ def marvel_comic():
         end_date = request.form.get('marvel_comics_end_date') or start_date
         title_match_method = request.form.get('marvel_comics_title_method')
         order_by = request.form.get('marvel_comics_order_by')
-        comics = get_marvel_comics(title, limit, offset, start_date, end_date, title_match_method, order_by)
+
+        comics = []
+        # API access deactivated because The Marvel Developer Portal has been sunset
+        # and is no longer available
+        # comics = get_marvel_comics(title, limit, offset, start_date, end_date, title_match_method, order_by)
+
         form_executed = 'marvel_form_comics'
+
     return render_template('marvel_comics.html', comics=comics, form_executed=form_executed)
 
 

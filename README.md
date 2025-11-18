@@ -100,10 +100,11 @@ This is a very simple Flask Application example that calls some APIs.
                                                                           https://platform.openai.com/docs/introduction
                                                                           https://platform.openai.com/docs/api-reference/introduction
 
-    Marvel Comics           https://www.marvel.com/comics/	            The Marvel Comics API is a tool to help developers everywhere create amazing,
+    Marvel Comics [deactivated]     https://www.marvel.com/comics/	    We are sad to announce that The Marvel Developer Portal has been sunset and is no longer available. 
+                                                                        The Marvel Comics API was a tool to help developers everywhere create amazing,
                                                                         uncanny and incredible web sites and applications using data from the 
                                                                         several years of the Marvel age of comics.
-                                                                        An API key is needed to request the API.
+                                                                        An API key was needed to request the API.
                                                                             Regarding this example you must create the folder marvel_api_keys in the HOME directory
                                                                             with a file containing your API public key (marvel_public_key.key)
                                                                             and another file containing your API private key marvel_private_key.key
@@ -114,11 +115,7 @@ This is a very simple Flask Application example that calls some APIs.
                                                                                         marvel_private_key.key
                                                                                         marvel_public_key.key
 
-                                                                        The Marvel API suite and portal are in beta and is an evolving project.
-                                                                        There is really a lot of good stuff to request from Marvel API.
-                                                                        Data provided by Marvel. © 2021 Marvel.
-                                                                        Developer Portal at Marvel.com: https://developer.marvel.com/
-                                                                        API Documentation: https://developer.marvel.com/docs
+                                                                        [Now deactivated] Developer Portal at Marvel.com: https://developer.marvel.com/
 
     Dog API                 https://dog.ceo/dog-api/                    Dog API. Original dataset taken from the the Stanford Dogs Dataset.
 
